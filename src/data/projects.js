@@ -435,10 +435,13 @@ export const projects = [
       { val: '↓', label: 'Inventory Mismatch' },
     ],
     tags: ['Product Design', 'UX Strategy', 'UI Design'],
+    bento: '"g1 g1 g1 g1 g1 g1 g1 g1 g1 g1 g1 g1" "g2 g2 g2 g2 g2 g2 g3 g3 g3 g3 g3 g3"',
     gallery: [
-      { src: '/more-selynar.jpg', alt: 'Selynar OMS Interface', bg: '#C8D8C8', fit: 'contain' },
+      { src: '/selynar-g1.jpg', area: 'g1', alt: 'Selynar OMS Dashboard', bg: '#f8f8f8', ratio: '7232/3872' },
+      { src: '/selynar-g2.png', area: 'g2', alt: 'Selynar Logo Red',      bg: '#ffffff', ratio: '1/1' },
+      { src: '/selynar-g3.png', area: 'g3', alt: 'Selynar Logo White',    bg: '#C0221E', ratio: '1/1' },
     ],
-    heroImage: { src: '/more-selynar.jpg', bg: '#C8D8C8' },
+    heroImage: { src: '/selynar-g1.jpg', bg: '#f8f8f8' },
   },
 ]
 
