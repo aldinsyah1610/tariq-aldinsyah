@@ -40,16 +40,16 @@ export default function About() {
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
+        <div className="grid lg:grid-cols-2 gap-12 items-stretch">
 
           {/* Left — photo */}
-          <div ref={leftRef}>
-            {/* Photo */}
-            <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden relative mb-6">
+          <div ref={leftRef} className="flex flex-col">
+            {/* Photo — stretches to fill remaining height */}
+            <div className="flex-1 min-h-0 rounded-2xl overflow-hidden relative mb-6" style={{ minHeight: '320px' }}>
               <ImageWithSkeleton
                 src="/tariq-photo.jpg"
                 alt="Tariq Aldinsyah"
-                imgClassName="w-full h-full object-cover object-top"
+                imgClassName="absolute inset-0 w-full h-full object-cover object-top"
               />
             </div>
 
