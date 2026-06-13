@@ -37,7 +37,10 @@ export default function Navbar() {
 
   const go = (href) => {
     setMenuOpen(false)
-    document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
+    const el = document.querySelector(href)
+    if (!el) return
+    if (window.__lenis) window.__lenis.scrollTo(el)
+    else el.scrollIntoView({ behavior: 'smooth' })
   }
 
   return (
@@ -49,7 +52,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
 
           {/* Wordmark */}
-          <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          <button onClick={() => window.__lenis ? window.__lenis.scrollTo(0) : window.scrollTo({ top: 0 })}
             className="wordmark-box hover:bg-lime/10 transition-colors">
             Tariq Aldinsyah
           </button>

@@ -11,6 +11,7 @@ export default function CursorGlow() {
       y: e.clientY - SIZE / 2,
       duration: 0.9,
       ease: 'power2.out',
+      overwrite: 'auto',
     })
     window.addEventListener('mousemove', onMove)
     return () => window.removeEventListener('mousemove', onMove)

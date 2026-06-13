@@ -86,7 +86,7 @@ export default function Contact() {
       <div className="relative max-w-7xl mx-auto px-5 sm:px-8 py-12">
         <div className="grid md:grid-cols-3 gap-8 pb-12 border-b border-[#1e2a0a]">
           <div>
-            <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            <button onClick={() => window.__lenis ? window.__lenis.scrollTo(0) : window.scrollTo({ top: 0 })}
               className="wordmark-box mb-4 inline-block">
               Tariq Aldinsyah
             </button>

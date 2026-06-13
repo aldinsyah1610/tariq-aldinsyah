@@ -33,9 +33,12 @@ export default function BackgroundFX() {
   const ring3Ref = useRef(null)
 
   useEffect(() => {
-    gsap.to(ring1Ref.current, { rotation: 360,  duration: 160, repeat: -1, ease: 'none', transformOrigin: '50% 50%' })
-    gsap.to(ring2Ref.current, { rotation: -360, duration: 100, repeat: -1, ease: 'none', transformOrigin: '50% 50%' })
-    gsap.to(ring3Ref.current, { rotation: 360,  duration: 200, repeat: -1, ease: 'none', transformOrigin: '50% 50%' })
+    const ctx = gsap.context(() => {
+      gsap.to(ring1Ref.current, { rotation: 360,  duration: 160, repeat: -1, ease: 'none', transformOrigin: '50% 50%' })
+      gsap.to(ring2Ref.current, { rotation: -360, duration: 100, repeat: -1, ease: 'none', transformOrigin: '50% 50%' })
+      gsap.to(ring3Ref.current, { rotation: 360,  duration: 200, repeat: -1, ease: 'none', transformOrigin: '50% 50%' })
+    })
+    return () => ctx.revert()
   }, [])
 
   return (

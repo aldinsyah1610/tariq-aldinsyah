@@ -18,30 +18,33 @@ export default function Hero() {
   const aboutBtnRef  = useRef(null)
 
   useEffect(() => {
-    const tl = gsap.timeline({ delay: 0.3 })
-    tl
-      .fromTo(metaRef.current,  { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' })
-      .fromTo(line1Ref.current, { y: '120%' },          { y: '0%',  duration: 1.1, ease: 'power4.out' }, '-=0.1')
-      .fromTo(line2Ref.current, { y: '120%' },          { y: '0%',  duration: 1.1, ease: 'power4.out' }, '-=0.75')
-      .fromTo(descRef.current,  { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, '-=0.5')
-      .fromTo(ctaRef.current,   { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, '-=0.4')
-      .fromTo(phoneWrapRef.current, { opacity: 0, x: 60, scale: 0.93 }, { opacity: 1, x: 0, scale: 1, duration: 1.1, ease: 'power3.out' }, '-=0.85')
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ delay: 0.3 })
+      tl
+        .fromTo(metaRef.current,  { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' })
+        .fromTo(line1Ref.current, { y: '120%' },          { y: '0%',  duration: 1.1, ease: 'power4.out' }, '-=0.1')
+        .fromTo(line2Ref.current, { y: '120%' },          { y: '0%',  duration: 1.1, ease: 'power4.out' }, '-=0.75')
+        .fromTo(descRef.current,  { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, '-=0.5')
+        .fromTo(ctaRef.current,   { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, '-=0.4')
+        .fromTo(phoneWrapRef.current, { opacity: 0, x: 60, scale: 0.93 }, { opacity: 1, x: 0, scale: 1, duration: 1.1, ease: 'power3.out' }, '-=0.85')
 
-    // Float loop on inner phone div
-    gsap.to(phoneRef.current, {
-      y: -14, duration: 3.2, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.5,
-    })
+      // Float loop on inner phone div
+      gsap.to(phoneRef.current, {
+        y: -14, duration: 3.2, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.5,
+      })
 
-    // Scroll parallax on phone wrapper
-    gsap.to(phoneWrapRef.current, {
-      y: -55, ease: 'none',
-      scrollTrigger: {
-        trigger: document.documentElement,
-        start: 'top top',
-        end: '+=600',
-        scrub: 1,
-      },
+      // Scroll parallax on phone wrapper
+      gsap.to(phoneWrapRef.current, {
+        y: -55, ease: 'none',
+        scrollTrigger: {
+          trigger: document.documentElement,
+          start: 'top top',
+          end: '+=600',
+          scrub: 1,
+        },
+      })
     })
+    return () => ctx.revert()
   }, [])
 
   const magnetic = (ref) => ({
@@ -133,7 +136,7 @@ export default function Hero() {
               </a>
               <button ref={aboutBtnRef}
                 {...magnetic(aboutBtnRef)}
-                onClick={() => document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => { const el = document.querySelector('#about'); if (window.__lenis) window.__lenis.scrollTo(el); else el?.scrollIntoView({ behavior: 'smooth' }) }}
                 className="border border-white/20 text-white/70 font-medium px-7 py-3 rounded-full text-sm tracking-wide hover:border-lime/40 hover:text-lime transition-all">
                 About Me
               </button>
