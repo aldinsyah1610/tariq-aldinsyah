@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { Download } from 'lucide-react'
 import ImageWithSkeleton from './ImageWithSkeleton'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -122,12 +123,14 @@ export default function Hero() {
             </div>
 
             <div ref={ctaRef} className="flex flex-wrap gap-4">
-              <button ref={viewBtnRef}
+              <a ref={viewBtnRef}
                 {...magnetic(viewBtnRef)}
-                onClick={() => document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' })}
-                className="bg-lime text-dark font-bold px-7 py-3 rounded-full text-sm tracking-wide hover:bg-lime-dark transition-colors shadow-lime-glow">
-                View Projects
-              </button>
+                href="/tariq-cv.pdf"
+                download="Tariq_Aldinsyah_CV.pdf"
+                className="inline-flex items-center gap-2 bg-lime text-dark font-bold px-7 py-3 rounded-full text-sm tracking-wide hover:bg-lime-dark transition-colors shadow-lime-glow">
+                <Download size={15} />
+                Download CV
+              </a>
               <button ref={aboutBtnRef}
                 {...magnetic(aboutBtnRef)}
                 onClick={() => document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' })}
