@@ -321,10 +321,13 @@ export const projects = [
       { val: '1', label: 'Unified Platform' },
     ],
     tags: ['System Design', 'UI Design', 'UX Strategy'],
+    bento: '"g2 g2 g2 g2 g2 g2 g2 g2 g2 g2 g2 g2" "g1 g1 g1 g1 g1 g1 g1 g1 g3 g3 g3 g3"',
     gallery: [
-      { src: '/more-ifmc.jpg', alt: 'iFMC System Interface', bg: '#C8D8C8', fit: 'contain' },
+      { src: '/ifmc-g2.jpg', area: 'g2', alt: 'iFMC App Branding',       bg: '#f5ede6', ratio: '4096/2000' },
+      { src: '/ifmc-g1.jpg', area: 'g1', alt: 'iFMC Dashboard Web',      bg: '#f5f5f5', ratio: '4096/3268', bentoRatio: '9/8' },
+      { src: '/ifmc-g3.jpg', area: 'g3', alt: 'iFMC Absensi Mobile',     bg: '#f5ede6', ratio: '3120/5608' },
     ],
-    heroImage: { src: '/more-ifmc.jpg', bg: '#C8D8C8' },
+    heroImage: { src: '/ifmc-g2.jpg', bg: '#f5ede6' },
   },
   {
     id: 'dira-helpdesk',
