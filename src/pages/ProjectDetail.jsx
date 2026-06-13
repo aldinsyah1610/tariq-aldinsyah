@@ -196,16 +196,15 @@ export default function ProjectDetail() {
         {project.gallery.length > 0 && (
           <div className="pd-section">
             <SectionLabel>Project Gallery</SectionLabel>
-            <div className={`mt-6 grid gap-3 ${project.gallery.length === 1 ? 'grid-cols-1' : project.gallery.length === 2 ? 'grid-cols-2' : 'grid-cols-2 md:grid-cols-3'}`}>
+            <div className="mt-6 grid grid-cols-2 gap-3">
               {project.gallery.map((img, i) => (
                 <div key={i}
-                  className={`rounded-xl overflow-hidden ${i === 0 && project.gallery.length >= 3 ? 'col-span-2 md:col-span-2' : ''}`}
-                  style={{ background: img.bg, minHeight: 220 }}>
+                  className={`rounded-xl overflow-hidden relative ${img.span === 'full' ? 'col-span-2' : ''}`}
+                  style={{ background: img.bg, aspectRatio: img.ratio || '16/9' }}>
                   <ImageWithSkeleton
                     src={img.src}
                     alt={img.alt}
-                    imgClassName={`w-full h-full ${img.fit === 'contain' ? 'object-contain p-4' : 'object-cover'}`}
-                    style={{ minHeight: 220 }}
+                    imgClassName={`w-full h-full ${img.fit === 'contain' ? 'object-contain' : 'object-cover'}`}
                   />
                 </div>
               ))}
