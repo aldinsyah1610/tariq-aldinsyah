@@ -202,10 +202,14 @@ export const projects = [
       { val: '100%', label: 'Digital Visit Logging' },
     ],
     tags: ['Workflow Design', 'UI Design', 'UX Optimization'],
+    bento: '"g3 g3 g3 g3 g3 g3 g3 g3 g3 g3 g3 g3" "g2 g2 g2 g1 g1 g1 g1 g1 g1 g1 g1 g1" "g4 g4 g4 g4 g4 g4 g4 g4 g4 g4 g4 g4"',
     gallery: [
-      { src: '/more-canvasser.jpg', alt: 'BayarAja Canvasser App', bg: '#C8D8C8', fit: 'contain' },
+      { src: '/canvasser-g3.jpg', area: 'g3', alt: 'Canvasser SuperApp Branding',     bg: '#ffffff', ratio: '1724/918' },
+      { src: '/canvasser-g2.jpg', area: 'g2', alt: 'Canvasser Multi-Screen Overview', bg: '#ffffff', ratio: '1280/1932' },
+      { src: '/canvasser-g1.jpg', area: 'g1', alt: 'BayarAja Canvasser App Icon',     bg: '#f0f0f4', ratio: '1724/918', bentoRatio: '2/1' },
+      { src: '/canvasser-g4.jpg', area: 'g4', alt: 'Canvasser Dashboard Web',         bg: '#f5f5f5', ratio: '3136/1840' },
     ],
-    heroImage: { src: '/more-canvasser.jpg', bg: '#C8D8C8' },
+    heroImage: { src: '/canvasser-g3.jpg', bg: '#ffffff' },
   },
   {
     id: 'bayaraja-pos',
