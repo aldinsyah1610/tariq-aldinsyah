@@ -5,30 +5,51 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 const H     = 400
-const LX    = 110   // left block width
-const RX    = 530   // right blocks start x
-const RW    = 115   // right block width
-const GAP   = 20    // gap between right blocks
+const LX    = 110
+const RX    = 530
+const RW    = 115
+const GAP   = 20
 const MX    = (LX + RX) / 2
-const SVG_W = 860
-const LBL_X = RX + RW + 16
+const SVG_W = 880
+const LBL_X = RX + RW + 18
+
+const LIME        = '#C0F53D'
+const FILL_BLOCK  = 'rgba(192,245,61,0.08)'
+const STROKE_L    = 'rgba(192,245,61,0.38)'  // left block border
+const STROKE_R    = 'rgba(192,245,61,0.22)'  // right block border
+const FLOW_FILL   = 'rgba(192,245,61,0.07)'
 
 const FLOWS = [
   {
-    pct: 0.60, color: '#C0F53D', pctLabel: '60%', label: 'Research',
-    sub: ['Field Survey & Observation', 'Competitive Analysis', 'Brand Identity & Logo', 'Moodboard & Concept Ideation'],
+    pct: 0.60, pctLabel: '60%', label: 'Research',
+    sub: [
+      { pct: '10%', name: 'Brand Identity' },
+      { pct: '15%', name: 'Business Analysis' },
+      { pct: '5%',  name: 'Field Survey & Observation' },
+      { pct: '10%', name: 'Concept Ideation' },
+      { pct: '10%', name: 'Research Journals' },
+      { pct: '10%', name: 'Design Style Research' },
+    ],
   },
   {
-    pct: 0.10, color: '#8fc93d', pctLabel: '10%', label: 'UX Research',
-    sub: ['User Interviews', 'User Flows & Wireframe'],
+    pct: 0.10, pctLabel: '10%', label: 'UX Research',
+    sub: [
+      { pct: '5%', name: 'User Interviews' },
+      { pct: '5%', name: 'User Flow & Wireframe' },
+    ],
   },
   {
-    pct: 0.30, color: '#5a7a1e', pctLabel: '30%', label: 'UI Design',
-    sub: ['Visual Design', 'Design System', 'Hi-Fi Prototype', 'Developer Handoff'],
+    pct: 0.30, pctLabel: '30%', label: 'UI Design',
+    sub: [
+      { pct: '5%',  name: 'Visual Design' },
+      { pct: '10%', name: 'Design System' },
+      { pct: '10%', name: 'Hi-Fi Prototype' },
+      { pct: '5%',  name: 'Developer Handoff' },
+    ],
   },
 ]
 
-// Pre-compute block positions at module level (runs once)
+// Pre-compute positions (module-level, runs once)
 const totalGap = (FLOWS.length - 1) * GAP
 let lY = 0, rY = 0
 const computed = FLOWS.map(f => {
@@ -58,16 +79,15 @@ export default function AboutSankey() {
     if (!el) return
     const ctx = gsap.context(() => {
       const st = { trigger: el, start: 'top 82%' }
-      const paths  = el.querySelectorAll('.s-path')
-      const blocks = el.querySelectorAll('.s-block')
-      const lbls   = el.querySelectorAll('.s-lbl')
-
-      gsap.fromTo(paths,  { opacity: 0 },
-        { opacity: 0.88, duration: 0.8, stagger: 0.18, ease: 'power2.out', scrollTrigger: st })
-      gsap.fromTo(blocks, { opacity: 0, x: 14 },
-        { opacity: 1, x: 0, duration: 0.6, stagger: 0.18, ease: 'power3.out', delay: 0.35, scrollTrigger: st })
-      gsap.fromTo(lbls,   { opacity: 0, x: 8 },
-        { opacity: 1, x: 0, duration: 0.5, stagger: 0.05, ease: 'power2.out', delay: 0.55, scrollTrigger: st })
+      gsap.fromTo(el.querySelectorAll('.s-path'),
+        { opacity: 0 },
+        { opacity: 1, duration: 0.9, stagger: 0.2, ease: 'power2.out', scrollTrigger: st })
+      gsap.fromTo(el.querySelectorAll('.s-block'),
+        { opacity: 0, x: 14 },
+        { opacity: 1, x: 0, duration: 0.6, stagger: 0.2, ease: 'power3.out', delay: 0.35, scrollTrigger: st })
+      gsap.fromTo(el.querySelectorAll('.s-lbl'),
+        { opacity: 0, x: 8 },
+        { opacity: 1, x: 0, duration: 0.5, stagger: 0.04, ease: 'power2.out', delay: 0.5, scrollTrigger: st })
     }, el)
     return () => ctx.revert()
   }, [])
@@ -81,35 +101,33 @@ export default function AboutSankey() {
 
       <svg
         ref={svgRef}
-        viewBox={`0 0 ${SVG_W} ${H + 8}`}
+        viewBox={`0 0 ${SVG_W} ${H + 10}`}
         className="w-full"
         style={{ overflow: 'visible', fontFamily: "'Space Grotesk', sans-serif" }}
       >
-        <defs>
-          <linearGradient id="lgGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%"   stopColor="#C0F53D" />
-            <stop offset="100%" stopColor="#3d5a0e" />
-          </linearGradient>
-        </defs>
-
         {/* Left source block */}
-        <rect x={0} y={0} width={LX} height={H} fill="url(#lgGrad)" rx={7} />
-
-        {/* Separators between flows on left block */}
+        <rect
+          x={0} y={0} width={LX} height={H}
+          fill={FILL_BLOCK} stroke={STROKE_L} strokeWidth={1.5} rx={7}
+        />
+        {/* Separator lines between flows on left block */}
         {computed.slice(0, -1).map(f => (
           <line key={f.label + '-sep'}
-            x1={0} y1={f.lY0 + f.lH}
-            x2={LX} y2={f.lY0 + f.lH}
-            stroke="#080c02" strokeWidth={1.5} opacity={0.5} />
+            x1={4} y1={f.lY0 + f.lH}
+            x2={LX - 4} y2={f.lY0 + f.lH}
+            stroke="rgba(192,245,61,0.2)" strokeWidth={1} />
         ))}
-
-        {/* Left block label */}
-        <text x={LX / 2} y={H / 2 - 9}  textAnchor="middle" fill="#080c02" fontSize={11} fontWeight={700} letterSpacing="0.08em">DESIGN</text>
-        <text x={LX / 2} y={H / 2 + 9}  textAnchor="middle" fill="#080c02" fontSize={11} fontWeight={700} letterSpacing="0.08em">PROCESS</text>
+        <text x={LX / 2} y={H / 2 - 9} textAnchor="middle" fill={LIME} fontSize={10} fontWeight={700} letterSpacing="0.1em">DESIGN</text>
+        <text x={LX / 2} y={H / 2 + 9} textAnchor="middle" fill={LIME} fontSize={10} fontWeight={700} letterSpacing="0.1em">PROCESS</text>
 
         {/* Flow paths */}
         {computed.map(f => (
-          <path key={f.label} className="s-path" d={flowPath(f)} fill={f.color} opacity={0} />
+          <path key={f.label} className="s-path"
+            d={flowPath(f)}
+            fill={FLOW_FILL}
+            stroke="rgba(192,245,61,0.12)" strokeWidth={0.5}
+            opacity={0}
+          />
         ))}
 
         {/* Right blocks + labels */}
@@ -120,17 +138,18 @@ export default function AboutSankey() {
               {/* Right block */}
               <rect className="s-block"
                 x={RX} y={f.rY0} width={RW} height={f.rH}
-                fill={f.color} rx={5} />
+                fill={FILL_BLOCK} stroke={STROKE_R} strokeWidth={1} rx={5}
+              />
 
-              {/* Percentage */}
+              {/* Main percentage */}
               <text className="s-lbl"
                 x={LBL_X} y={midY - 17}
-                fill="#C0F53D" fontSize={18} fontWeight={800}
+                fill={LIME} fontSize={18} fontWeight={800}
                 dominantBaseline="middle">
                 {f.pctLabel}
               </text>
 
-              {/* Category label */}
+              {/* Category name */}
               <text className="s-lbl"
                 x={LBL_X} y={midY + 1}
                 fill="white" fontSize={11} fontWeight={700}
@@ -138,13 +157,13 @@ export default function AboutSankey() {
                 {f.label}
               </text>
 
-              {/* Sub items */}
+              {/* Sub-items with individual percentages */}
               {f.sub.map((s, i) => (
-                <text key={s} className="s-lbl"
-                  x={LBL_X} y={midY + 16 + i * 13}
-                  fill="rgba(255,255,255,0.33)" fontSize={9.5}
+                <text key={s.name} className="s-lbl"
+                  x={LBL_X} y={midY + 17 + i * 13}
                   dominantBaseline="middle">
-                  · {s}
+                  <tspan fill={LIME} fontSize={9} fontWeight={600} opacity={0.7}>{s.pct} </tspan>
+                  <tspan fill="rgba(255,255,255,0.33)" fontSize={9}>{s.name}</tspan>
                 </text>
               ))}
             </g>
@@ -152,10 +171,9 @@ export default function AboutSankey() {
         })}
 
         {/* Bottom caption */}
-        <text
-          x={SVG_W / 2} y={H + 24}
+        <text x={SVG_W / 2} y={H + 26}
           textAnchor="middle"
-          fill="rgba(255,255,255,0.15)" fontSize={8.5} letterSpacing="0.14em">
+          fill="rgba(255,255,255,0.12)" fontSize={8.5} letterSpacing="0.14em">
           TARIQ ALDINSYAH — DESIGN WORKFLOW
         </text>
       </svg>
