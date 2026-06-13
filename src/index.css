@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@1,400;1,500;1,600;1,700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    background-color: #080c02;
+    color: #ffffff;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Skeleton shimmer */
+  @keyframes skeleton-shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+  .skeleton-shimmer {
+    background: linear-gradient(90deg, #0d1204 0%, #1e2a0a 50%, #0d1204 100%);
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.6s ease-in-out infinite;
+  }
+
+  /* Hide default cursor on pointer devices when custom cursor is active */
+  @media (hover: hover) and (pointer: fine) {
+    .custom-cursor,
+    .custom-cursor * {
+      cursor: none !important;
+    }
+  }
+  #root { width: 100%; min-height: 100vh; }
+}
+
+@layer utilities {
+  /* Lime text gradient */
+  .text-lime-gradient {
+    background: linear-gradient(135deg, #C0F53D 0%, #e8ff80 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Serif italic accent (mixed into headings) */
+  .accent-serif {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-weight: 600;
+    color: #C0F53D;
+  }
+
+  /* Section label — lime uppercase tiny */
+  .label-tag {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #C0F53D;
+  }
+
+  /* Dark pill tag */
+  .pill {
+    background: #1a2209;
+    color: #9aab6a;
+    border: 1px solid #1e2a0a;
+    border-radius: 999px;
+    padding: 0.3rem 0.85rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    display: inline-block;
+    transition: all 0.2s;
+  }
+  .pill:hover {
+    background: #243010;
+    color: #C0F53D;
+    border-color: #C0F53D40;
+  }
+
+  /* Green glow blob */
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .blob-lime {
+    background: radial-gradient(circle, rgba(192,245,61,0.18) 0%, rgba(192,245,61,0.06) 40%, transparent 70%);
+    filter: blur(60px);
+  }
+  .blob-lime-sm {
+    background: radial-gradient(circle, rgba(192,245,61,0.12) 0%, transparent 65%);
+    filter: blur(40px);
+  }
+
+  /* Subtle dark grid overlay */
+  .grid-overlay {
+    background-image:
+      linear-gradient(rgba(192,245,61,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(192,245,61,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  /* Sparkle + decoration */
+  .sparkle {
+    color: rgba(192,245,61,0.5);
+    font-size: 0.8rem;
+    font-weight: 300;
+    line-height: 1;
+    user-select: none;
+  }
+
+  /* Lime bordered box wordmark style */
+  .wordmark-box {
+    border: 1.5px solid rgba(192,245,61,0.6);
+    border-radius: 4px;
+    padding: 3px 10px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #C0F53D;
+  }
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #080c02; }
+::-webkit-scrollbar-thumb { background: #C0F53D; border-radius: 2px; }
