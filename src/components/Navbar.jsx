@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { Menu, X, Sun, Moon } from 'lucide-react'
 import { useTheme } from '../hooks/useTheme'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 const navLinks = [
   { label: 'About',    href: '#about' },
@@ -18,6 +19,8 @@ export default function Navbar() {
   const navRef    = useRef(null)
   const mobileRef = useRef(null)
   const { theme, toggle } = useTheme()
+  const navigate  = useNavigate()
+  const location  = useLocation()
 
   useEffect(() => {
     gsap.fromTo(navRef.current, { y: -60, opacity: 0 },
@@ -35,12 +38,21 @@ export default function Navbar() {
       gsap.fromTo(mobileRef.current, { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.22, ease: 'power2.out' })
   }, [menuOpen])
 
-  const go = (href) => {
-    setMenuOpen(false)
+  const scrollToSection = (href) => {
     const el = document.querySelector(href)
     if (!el) return
     if (window.__lenis) window.__lenis.scrollTo(el)
     else el.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  const go = (href) => {
+    setMenuOpen(false)
+    if (location.pathname === '/') {
+      scrollToSection(href)
+    } else {
+      navigate('/')
+      setTimeout(() => scrollToSection(href), 400)
+    }
   }
 
   return (

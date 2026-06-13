@@ -1,4 +1,8 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './index.css'
+import ScrollToTop from './components/ScrollToTop'
+import ProjectDetail from './pages/ProjectDetail'
+
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -14,14 +18,13 @@ import CursorGlow from './components/CursorGlow'
 import CustomCursor from './components/CustomCursor'
 import BackgroundFX from './components/BackgroundFX'
 
-function App() {
+function Home() {
   return (
     <div className="min-h-screen">
       <ScrollProgress />
       <CursorGlow />
       <CustomCursor />
       <BackgroundFX />
-      {/* All main content sits above background decorations */}
       <div className="relative z-[10]">
         <Navbar />
         <Hero />
@@ -35,6 +38,18 @@ function App() {
         <Contact />
       </div>
     </div>
+  )
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/projects/:id" element={<ProjectDetail />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 

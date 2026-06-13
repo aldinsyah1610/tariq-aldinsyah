@@ -2,19 +2,20 @@ import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { Plus } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import ImageWithSkeleton from './ImageWithSkeleton'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const projects = [
-  { name: 'BayarAja',           desc: 'Digital payment app simplifying daily transactions through intuitive UX.', tags: ['UI Redesign', 'UX Flow', 'System Design'],        img: '/more-bayaraja.jpg',   bg: '#C8D8C8' },
-  { name: 'BayarAja Canvasser', desc: 'Field sales app streamlining canvassing and improving team productivity.',  tags: ['Workflow Design', 'UI Design', 'UX Optimization'], img: '/more-canvasser.jpg',  bg: '#C8D8C8' },
-  { name: 'BayarAja POS',       desc: 'Mobile POS for MSMEs — transactions, products, sales reports.',            tags: ['UI Design', 'System Design', 'UX Strategy'],       img: '/more-pos.jpg',        bg: '#C8D8C8' },
-  { name: 'Marissa HRIS',       desc: 'HR management system improving employee operations and engagement.',        tags: ['UI Redesign', 'UX Optimization', 'System Design'],  img: '/more-marissa.jpg',    bg: '#C8D8C8' },
-  { name: 'iFMC',               desc: 'HRIS and network operation system for field workforce management.',         tags: ['System Design', 'UI Design', 'UX Strategy'],       img: '/more-ifmc.jpg',       bg: '#C8D8C8' },
-  { name: 'Dira Help Desk',     desc: 'Integrated help desk for KISEL subsidiaries — streamlined requests.',      tags: ['UI Design', 'Workflow Design', 'System Design'],    img: '/more-dira.jpg',       bg: '#C8D8C8' },
-  { name: 'Nexus Care',         desc: 'Nursing documentation platform standardizing care and diagnosis.',         tags: ['UI Design', 'UX Strategy', 'Platform Design'],      img: '/more-nexus.jpg',      bg: '#C8D8C8' },
-  { name: 'Selynar OMS',        desc: 'Supply chain order management for Telkomsel warehouse distribution.',      tags: ['Product Design', 'UX Strategy', 'UI Design'],       img: '/more-selynar.jpg',    bg: '#C8D8C8' },
+  { id: 'bayaraja',           name: 'BayarAja',           desc: 'Digital payment app simplifying daily transactions through intuitive UX.', tags: ['UI Redesign', 'UX Flow', 'System Design'],        img: '/more-bayaraja.jpg',   bg: '#C8D8C8' },
+  { id: 'bayaraja-canvasser', name: 'BayarAja Canvasser', desc: 'Field sales app streamlining canvassing and improving team productivity.',  tags: ['Workflow Design', 'UI Design', 'UX Optimization'], img: '/more-canvasser.jpg',  bg: '#C8D8C8' },
+  { id: 'bayaraja-pos',       name: 'BayarAja POS',       desc: 'Mobile POS for MSMEs — transactions, products, sales reports.',            tags: ['UI Design', 'System Design', 'UX Strategy'],       img: '/more-pos.jpg',        bg: '#C8D8C8' },
+  { id: 'marissa-hris',       name: 'Marissa HRIS',       desc: 'HR management system improving employee operations and engagement.',        tags: ['UI Redesign', 'UX Optimization', 'System Design'],  img: '/more-marissa.jpg',    bg: '#C8D8C8' },
+  { id: 'ifmc',               name: 'iFMC',               desc: 'HRIS and network operation system for field workforce management.',         tags: ['System Design', 'UI Design', 'UX Strategy'],       img: '/more-ifmc.jpg',       bg: '#C8D8C8' },
+  { id: 'dira-helpdesk',      name: 'Dira Help Desk',     desc: 'Integrated help desk for KISEL subsidiaries — streamlined requests.',      tags: ['UI Design', 'Workflow Design', 'System Design'],    img: '/more-dira.jpg',       bg: '#C8D8C8' },
+  { id: 'nexus-care',         name: 'Nexus Care',         desc: 'Nursing documentation platform standardizing care and diagnosis.',         tags: ['UI Design', 'UX Strategy', 'Platform Design'],      img: '/more-nexus.jpg',      bg: '#C8D8C8' },
+  { id: 'selynar-oms',        name: 'Selynar OMS',        desc: 'Supply chain order management for Telkomsel warehouse distribution.',      tags: ['Product Design', 'UX Strategy', 'UI Design'],       img: '/more-selynar.jpg',    bg: '#C8D8C8' },
 ]
 
 export default function MoreProjects() {
@@ -58,7 +59,8 @@ export default function MoreProjects() {
 }
 
 function ProjectItem({ project: p }) {
-  const cardRef = useRef(null)
+  const cardRef  = useRef(null)
+  const navigate = useNavigate()
 
   const onMouseEnter = () =>
     gsap.to(cardRef.current, { borderColor: 'rgba(192,245,61,0.3)', y: -4, duration: 0.25, ease: 'power2.out' })
@@ -82,6 +84,7 @@ function ProjectItem({ project: p }) {
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       onMouseMove={onMouseMove}
+      onClick={() => navigate(`/projects/${p.id}`)}
       className="rounded-2xl overflow-hidden cursor-pointer group"
       style={{ background: 'var(--card)', border: '1px solid var(--border)' }}>
 

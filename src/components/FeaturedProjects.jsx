@@ -2,13 +2,15 @@ import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ArrowUpRight } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import ImageWithSkeleton from './ImageWithSkeleton'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const featured = [
+  // slugs match src/data/projects.js ids
   {
-    id: 'rakit',
+    id: 'rakit-ecosystem',
     label: 'Modular Digital Ecosystem',
     name: 'rakit ecosystem',
     accent: '#C0F53D',
@@ -24,7 +26,7 @@ const featured = [
     ],
   },
   {
-    id: 'coopin',
+    id: 'coopin-ecosystem',
     label: 'Integrated Cooperative Platform',
     name: 'coopin ecosystem',
     accent: '#C0F53D',
@@ -41,7 +43,7 @@ const featured = [
     ],
   },
   {
-    id: 'mykisel',
+    id: 'mykisel-redesign',
     label: 'Redesigning Member Service Experience',
     name: 'mykisel redesign',
     accent: '#C0F53D',
@@ -99,6 +101,7 @@ export default function FeaturedProjects() {
 function ProjectCard({ project: p }) {
   const cardRef    = useRef(null)
   const metricRefs = useRef([])
+  const navigate   = useNavigate()
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -179,6 +182,12 @@ function ProjectCard({ project: p }) {
                 </div>
               ))}
             </div>
+
+            <button onClick={() => navigate(`/projects/${p.id}`)}
+              className="inline-flex items-center gap-2 text-sm font-semibold text-lime hover:text-lime/70 transition-colors group/btn">
+              View Case Study
+              <ArrowUpRight size={15} className="group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+            </button>
           </div>
 
           {/* Right — visual + metrics */}
