@@ -4,73 +4,100 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const H     = 400
-const LX    = 110
-const RX    = 530
-const RW    = 115
-const GAP   = 20
-const MX    = (LX + RX) / 2
-const SVG_W = 880
-const LBL_X = RX + RW + 18
+// ─── Layout constants ───────────────────────────────────────────────────────
+const H       = 500
+const SRC_W   = 100                    // source block width
+const CAT_X   = 230, CAT_W = 82       // category blocks
+const SUB_X   = 432, SUB_W = 74       // sub-item blocks
+const LBL_X   = SUB_X + SUB_W + 14   // label start x
+const SVG_W   = 800
+const GAP_CAT = 14                    // gap between category blocks
+const GAP_SUB = 6                     // gap between sub blocks
+const MX1     = (SRC_W + CAT_X) / 2  // bezier midpoint stage 1
+const MX2     = (CAT_X + CAT_W + SUB_X) / 2  // bezier midpoint stage 2
 
-const LIME        = '#C0F53D'
-const FILL_BLOCK  = 'rgba(192,245,61,0.08)'
-const STROKE_L    = 'rgba(192,245,61,0.38)'  // left block border
-const STROKE_R    = 'rgba(192,245,61,0.22)'  // right block border
-const FLOW_FILL   = 'rgba(192,245,61,0.07)'
+// ─── Per-category colors ────────────────────────────────────────────────────
+const COL = {
+  research: { fill: 'rgba(192,245,61,0.09)', stroke: 'rgba(192,245,61,0.30)', flow: 'rgba(192,245,61,0.06)', txt: '#C0F53D' },
+  ux:       { fill: 'rgba(155,220,55,0.09)', stroke: 'rgba(155,220,55,0.25)', flow: 'rgba(155,220,55,0.06)', txt: '#9bdc37' },
+  ui:       { fill: 'rgba(108,175,50,0.09)', stroke: 'rgba(108,175,50,0.22)', flow: 'rgba(108,175,50,0.06)', txt: '#6caf32' },
+}
 
-const FLOWS = [
+// ─── Data ───────────────────────────────────────────────────────────────────
+const DEFS = [
   {
-    pct: 0.60, pctLabel: '60%', label: 'Research',
-    sub: [
-      { pct: '10%', name: 'Brand Identity' },
-      { pct: '15%', name: 'Business Analysis' },
-      { pct: '5%',  name: 'Field Survey & Observation' },
-      { pct: '10%', name: 'Concept Ideation' },
-      { pct: '10%', name: 'Research Journals' },
-      { pct: '10%', name: 'Design Style Research' },
+    id: 'research', pct: 0.60, label: 'Research', pctLabel: '60%',
+    subs: [
+      { name: 'Brand Identity',             pct: 0.10, pctLabel: '10%' },
+      { name: 'Business Analysis',          pct: 0.15, pctLabel: '15%' },
+      { name: 'Field Survey & Observation', pct: 0.05, pctLabel: '5%'  },
+      { name: 'Concept Ideation',           pct: 0.10, pctLabel: '10%' },
+      { name: 'Research Journals',          pct: 0.10, pctLabel: '10%' },
+      { name: 'Design Style Research',      pct: 0.10, pctLabel: '10%' },
     ],
   },
   {
-    pct: 0.10, pctLabel: '10%', label: 'UX Research',
-    sub: [
-      { pct: '5%', name: 'User Interviews' },
-      { pct: '5%', name: 'User Flow & Wireframe' },
+    id: 'ux', pct: 0.10, label: 'UX Research', pctLabel: '10%',
+    subs: [
+      { name: 'User Interviews',       pct: 0.05, pctLabel: '5%' },
+      { name: 'User Flow & Wireframe', pct: 0.05, pctLabel: '5%' },
     ],
   },
   {
-    pct: 0.30, pctLabel: '30%', label: 'UI Design',
-    sub: [
-      { pct: '5%',  name: 'Visual Design' },
-      { pct: '10%', name: 'Design System' },
-      { pct: '10%', name: 'Hi-Fi Prototype' },
-      { pct: '5%',  name: 'Developer Handoff' },
+    id: 'ui', pct: 0.30, label: 'UI Design', pctLabel: '30%',
+    subs: [
+      { name: 'Visual Design',     pct: 0.05, pctLabel: '5%'  },
+      { name: 'Design System',     pct: 0.10, pctLabel: '10%' },
+      { name: 'Hi-Fi Prototype',   pct: 0.10, pctLabel: '10%' },
+      { name: 'Developer Handoff', pct: 0.05, pctLabel: '5%'  },
     ],
   },
 ]
 
-// Pre-compute positions (module-level, runs once)
-const totalGap = (FLOWS.length - 1) * GAP
-let lY = 0, rY = 0
-const computed = FLOWS.map(f => {
-  const lH = H * f.pct
-  const rH = (H - totalGap) * f.pct
-  const c = { ...f, lY0: lY, lH, rY0: rY, rH }
-  lY += lH
-  rY += rH + GAP
-  return c
-})
+// ─── Compute layout positions ────────────────────────────────────────────────
+function buildLayout() {
+  const catEffH = H - (DEFS.length - 1) * GAP_CAT
+  let srcY = 0, catY = 0
 
-function flowPath({ lY0, lH, rY0, rH }) {
-  return [
-    `M ${LX} ${lY0}`,
-    `C ${MX} ${lY0} ${MX} ${rY0} ${RX} ${rY0}`,
-    `L ${RX} ${rY0 + rH}`,
-    `C ${MX} ${rY0 + rH} ${MX} ${lY0 + lH} ${LX} ${lY0 + lH}`,
-    'Z',
-  ].join(' ')
+  return DEFS.map(f => {
+    const srcH = H * f.pct
+    const catH = catEffH * f.pct
+    const subEffH = catH - (f.subs.length - 1) * GAP_SUB
+    let catRelY = 0, subY = catY
+
+    const subs = f.subs.map(s => {
+      const ratio     = s.pct / f.pct
+      const catSideH  = catH * ratio       // height at cat-block edge (no gap)
+      const subH      = subEffH * ratio    // height of sub block (with gaps removed)
+      const item = {
+        ...s,
+        catSideY0: catY + catRelY, catSideH,
+        subY0: subY, subH,
+      }
+      catRelY += catSideH
+      subY    += subH + GAP_SUB
+      return item
+    })
+
+    const flow = { ...f, col: COL[f.id], srcY0: srcY, srcH, catY0: catY, catH, subs }
+    srcY += srcH
+    catY += catH + GAP_CAT
+    return flow
+  })
 }
 
+const LAYOUT = buildLayout()
+
+// ─── Path builders ──────────────────────────────────────────────────────────
+const stage1 = f =>
+  `M${SRC_W} ${f.srcY0}C${MX1} ${f.srcY0} ${MX1} ${f.catY0} ${CAT_X} ${f.catY0}` +
+  `L${CAT_X} ${f.catY0+f.catH}C${MX1} ${f.catY0+f.catH} ${MX1} ${f.srcY0+f.srcH} ${SRC_W} ${f.srcY0+f.srcH}Z`
+
+const stage2 = s =>
+  `M${CAT_X+CAT_W} ${s.catSideY0}C${MX2} ${s.catSideY0} ${MX2} ${s.subY0} ${SUB_X} ${s.subY0}` +
+  `L${SUB_X} ${s.subY0+s.subH}C${MX2} ${s.subY0+s.subH} ${MX2} ${s.catSideY0+s.catSideH} ${CAT_X+CAT_W} ${s.catSideY0+s.catSideH}Z`
+
+// ─── Component ──────────────────────────────────────────────────────────────
 export default function AboutSankey() {
   const svgRef = useRef(null)
 
@@ -78,16 +105,14 @@ export default function AboutSankey() {
     const el = svgRef.current
     if (!el) return
     const ctx = gsap.context(() => {
-      const st = { trigger: el, start: 'top 82%' }
-      gsap.fromTo(el.querySelectorAll('.s-path'),
-        { opacity: 0 },
-        { opacity: 1, duration: 0.9, stagger: 0.2, ease: 'power2.out', scrollTrigger: st })
-      gsap.fromTo(el.querySelectorAll('.s-block'),
-        { opacity: 0, x: 14 },
-        { opacity: 1, x: 0, duration: 0.6, stagger: 0.2, ease: 'power3.out', delay: 0.35, scrollTrigger: st })
-      gsap.fromTo(el.querySelectorAll('.s-lbl'),
-        { opacity: 0, x: 8 },
-        { opacity: 1, x: 0, duration: 0.5, stagger: 0.04, ease: 'power2.out', delay: 0.5, scrollTrigger: st })
+      const st  = { trigger: el, start: 'top 82%' }
+      const sel = cls => el.querySelectorAll(cls)
+
+      gsap.fromTo(sel('.p1'),    { opacity: 0 }, { opacity: 1, duration: 0.7, stagger: 0.2,  ease: 'power2.out',               scrollTrigger: st })
+      gsap.fromTo(sel('.catb'),  { opacity: 0, x: 10 }, { opacity: 1, x: 0, duration: 0.5, stagger: 0.2,  ease: 'power3.out', delay: 0.3,  scrollTrigger: st })
+      gsap.fromTo(sel('.p2'),    { opacity: 0 }, { opacity: 1, duration: 0.6, stagger: 0.04, ease: 'power2.out',               delay: 0.48, scrollTrigger: st })
+      gsap.fromTo(sel('.subb'),  { opacity: 0, x: 8  }, { opacity: 1, x: 0, duration: 0.4, stagger: 0.04, ease: 'power3.out', delay: 0.65, scrollTrigger: st })
+      gsap.fromTo(sel('.lbl'),   { opacity: 0, x: 5  }, { opacity: 1, x: 0, duration: 0.35, stagger: 0.04, ease: 'power2.out',delay: 0.82, scrollTrigger: st })
     }, el)
     return () => ctx.revert()
   }, [])
@@ -99,81 +124,62 @@ export default function AboutSankey() {
         <p className="text-white/20 text-xs">Based on total working hours</p>
       </div>
 
-      <svg
-        ref={svgRef}
-        viewBox={`0 0 ${SVG_W} ${H + 10}`}
-        className="w-full"
-        style={{ overflow: 'visible', fontFamily: "'Space Grotesk', sans-serif" }}
-      >
-        {/* Left source block */}
-        <rect
-          x={0} y={0} width={LX} height={H}
-          fill={FILL_BLOCK} stroke={STROKE_L} strokeWidth={1.5} rx={7}
-        />
-        {/* Separator lines between flows on left block */}
-        {computed.slice(0, -1).map(f => (
-          <line key={f.label + '-sep'}
-            x1={4} y1={f.lY0 + f.lH}
-            x2={LX - 4} y2={f.lY0 + f.lH}
-            stroke="rgba(192,245,61,0.2)" strokeWidth={1} />
+      <svg ref={svgRef} viewBox={`0 0 ${SVG_W} ${H + 18}`}
+        className="w-full" style={{ overflow: 'visible', fontFamily: "'Space Grotesk', sans-serif" }}>
+
+        {/* ── Source block ── */}
+        <rect x={0} y={0} width={SRC_W} height={H}
+          fill="rgba(192,245,61,0.08)" stroke="rgba(192,245,61,0.32)"
+          strokeWidth={1.5} rx={7} />
+        {LAYOUT.slice(0, -1).map(f => (
+          <line key={f.id + 's'}
+            x1={5} y1={f.srcY0 + f.srcH}
+            x2={SRC_W - 5} y2={f.srcY0 + f.srcH}
+            stroke="rgba(192,245,61,0.16)" strokeWidth={1} />
         ))}
-        <text x={LX / 2} y={H / 2 - 9} textAnchor="middle" fill={LIME} fontSize={10} fontWeight={700} letterSpacing="0.1em">DESIGN</text>
-        <text x={LX / 2} y={H / 2 + 9} textAnchor="middle" fill={LIME} fontSize={10} fontWeight={700} letterSpacing="0.1em">PROCESS</text>
+        <text x={SRC_W / 2} y={H / 2 - 9}  textAnchor="middle" fill="#C0F53D" fontSize={9.5} fontWeight={700} letterSpacing="0.1em">DESIGN</text>
+        <text x={SRC_W / 2} y={H / 2 + 9}  textAnchor="middle" fill="#C0F53D" fontSize={9.5} fontWeight={700} letterSpacing="0.1em">PROCESS</text>
 
-        {/* Flow paths */}
-        {computed.map(f => (
-          <path key={f.label} className="s-path"
-            d={flowPath(f)}
-            fill={FLOW_FILL}
-            stroke="rgba(192,245,61,0.12)" strokeWidth={0.5}
-            opacity={0}
-          />
-        ))}
+        {LAYOUT.map(f => (
+          <g key={f.id}>
+            {/* Stage 1: source → category */}
+            <path className="p1" d={stage1(f)}
+              fill={f.col.flow} stroke={f.col.stroke} strokeWidth={0.4} opacity={0} />
 
-        {/* Right blocks + labels */}
-        {computed.map(f => {
-          const midY = f.rY0 + f.rH / 2
-          return (
-            <g key={f.label + '-r'}>
-              {/* Right block */}
-              <rect className="s-block"
-                x={RX} y={f.rY0} width={RW} height={f.rH}
-                fill={FILL_BLOCK} stroke={STROKE_R} strokeWidth={1} rx={5}
-              />
+            {/* Category block */}
+            <rect className="catb"
+              x={CAT_X} y={f.catY0} width={CAT_W} height={f.catH}
+              fill={f.col.fill} stroke={f.col.stroke} strokeWidth={1} rx={5} opacity={0} />
+            <text className="catb" x={CAT_X + CAT_W / 2} y={f.catY0 + f.catH / 2 - 8}
+              textAnchor="middle" fill={f.col.txt} fontSize={10} fontWeight={700} opacity={0}>
+              {f.pctLabel}
+            </text>
+            <text className="catb" x={CAT_X + CAT_W / 2} y={f.catY0 + f.catH / 2 + 7}
+              textAnchor="middle" fill="rgba(255,255,255,0.65)" fontSize={8.5} fontWeight={600} opacity={0}>
+              {f.label}
+            </text>
 
-              {/* Main percentage */}
-              <text className="s-lbl"
-                x={LBL_X} y={midY - 17}
-                fill={LIME} fontSize={18} fontWeight={800}
-                dominantBaseline="middle">
-                {f.pctLabel}
-              </text>
-
-              {/* Category name */}
-              <text className="s-lbl"
-                x={LBL_X} y={midY + 1}
-                fill="white" fontSize={11} fontWeight={700}
-                dominantBaseline="middle">
-                {f.label}
-              </text>
-
-              {/* Sub-items with individual percentages */}
-              {f.sub.map((s, i) => (
-                <text key={s.name} className="s-lbl"
-                  x={LBL_X} y={midY + 17 + i * 13}
-                  dominantBaseline="middle">
-                  <tspan fill={LIME} fontSize={9} fontWeight={600} opacity={0.7}>{s.pct} </tspan>
-                  <tspan fill="rgba(255,255,255,0.33)" fontSize={9}>{s.name}</tspan>
+            {/* Stage 2: category → sub items */}
+            {f.subs.map(s => (
+              <g key={s.name}>
+                <path className="p2" d={stage2(s)}
+                  fill={f.col.flow} stroke={f.col.stroke} strokeWidth={0.3} opacity={0} />
+                <rect className="subb"
+                  x={SUB_X} y={s.subY0} width={SUB_W} height={s.subH}
+                  fill={f.col.fill} stroke={f.col.stroke} strokeWidth={1} rx={4} opacity={0} />
+                <text className="lbl"
+                  x={LBL_X} y={s.subY0 + s.subH / 2}
+                  dominantBaseline="middle" opacity={0}>
+                  <tspan fill={f.col.txt} fontSize={9} fontWeight={700}>{s.pctLabel} </tspan>
+                  <tspan fill="rgba(255,255,255,0.45)" fontSize={9}>{s.name}</tspan>
                 </text>
-              ))}
-            </g>
-          )
-        })}
+              </g>
+            ))}
+          </g>
+        ))}
 
-        {/* Bottom caption */}
-        <text x={SVG_W / 2} y={H + 26}
-          textAnchor="middle"
-          fill="rgba(255,255,255,0.12)" fontSize={8.5} letterSpacing="0.14em">
+        <text x={SVG_W / 2} y={H + 16} textAnchor="middle"
+          fill="rgba(255,255,255,0.1)" fontSize={8} letterSpacing="0.14em">
           TARIQ ALDINSYAH — DESIGN WORKFLOW
         </text>
       </svg>
