@@ -91,6 +91,11 @@ export default function Navbar() {
   }, [open])
 
   const closeMenu = () => {
+    // Restore scroll immediately — don't wait for onComplete.
+    // body.overflow + lenis.stop() are still active here; scrollTo() at 780ms would fail otherwise.
+    document.body.style.overflow = ''
+    if (window.__lenis) window.__lenis.start()
+
     const links = linksRef.current.filter(Boolean)
     const tl = gsap.timeline({ onComplete: () => setOpen(false) })
     tl.to([...links].reverse(), { y: -20, opacity: 0, stagger: 0.04, duration: 0.3, ease: 'power2.in' })
