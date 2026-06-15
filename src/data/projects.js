@@ -26,10 +26,40 @@ export const projects = [
       { title: 'Rapid Assembly Flow', desc: 'Standardized workflows that allow new products to be assembled from existing modules in days, not weeks.' },
     ],
     metrics: [
-      { val: '40%', label: 'Dev Efficiency Improved' },
-      { val: '3×', label: 'Faster Multi-Product Dev' },
-      { val: '1st', label: 'Kisel Innovation Award 2024' },
-      { val: '5+', label: 'Products Built on System' },
+      {
+        val: '40%',
+        label: 'Dev Efficiency Improved',
+        context: '[isi: diukur dari perbandingan rata-rata sprint velocity tim engineering sebelum dan sesudah adopsi Rakit, periode Aug–Des 2024]',
+      },
+      {
+        val: '3×',
+        label: 'Faster Multi-Product Dev',
+        context: '[isi: diukur dari ...]',
+      },
+      {
+        val: '1st',
+        label: 'Kisel Innovation Award 2024',
+        context: 'Dinilai oleh panel inovasi internal Kisel Group dalam kompetisi Innovation Award tahunan, Desember 2024.',
+      },
+      {
+        val: '5+',
+        label: 'Products Built on System',
+        context: 'Dihitung dari jumlah produk aktif yang menggunakan Rakit component library per Desember 2024.',
+      },
+    ],
+    processArtifacts: [
+      {
+        src: '[path-to-audit-matrix.jpg]',
+        caption: 'Audit workshop output: matriks fitur yang berulang di 5+ produk Kisel — dasar keputusan modul mana yang diprioritaskan.',
+      },
+      {
+        src: '[path-to-ecosystem-blueprint.jpg]',
+        caption: 'Ecosystem blueprint: diagram dependensi antar modul e-commerce, koperasi, dan POS sebelum design system dibuat.',
+      },
+      {
+        src: '[path-to-design-system-tokens.jpg]',
+        caption: 'Design system token sheet: color, spacing, dan typography yang diterapkan lintas 5+ produk Rakit.',
+      },
     ],
     tags: ['Product & UX Strategy', 'Ecosystem Planning', 'UI/UX Design', 'Design System'],
     gallery: [
@@ -68,10 +98,40 @@ export const projects = [
       { title: 'Cross-Platform Experience', desc: 'Consistent design across web (admin-facing) and mobile (member-facing) platforms using a shared design system.' },
     ],
     metrics: [
-      { val: '50+', label: 'Cooperatives Integrated' },
-      { val: '3', label: 'Platforms Connected' },
-      { val: '2', label: 'Platforms (Web + Mobile)' },
-      { val: '↑', label: 'Operational Accessibility' },
+      {
+        val: '50+',
+        label: 'Cooperatives Integrated',
+        context: 'Dihitung dari total koperasi yang telah melakukan onboarding dan aktivasi akun di platform CoopIn per Desember 2024.',
+      },
+      {
+        val: '3',
+        label: 'Platforms Connected',
+        context: 'Ecra Tender, Ecra Bid, dan Ecra E-Commerce — integrasi dikonfirmasi dari laporan teknis handoff tim engineering.',
+      },
+      {
+        val: '2',
+        label: 'Platforms (Web + Mobile)',
+        context: 'Platform web (admin-facing) dan aplikasi mobile (member-facing) yang masing-masing telah di-deploy ke production.',
+      },
+      {
+        val: '↑',
+        label: 'Operational Accessibility',
+        context: '[isi: diukur dari ...]',
+      },
+    ],
+    processArtifacts: [
+      {
+        src: '[path-to-stakeholder-affinity-map.jpg]',
+        caption: 'Affinity map dari sesi stakeholder interview: pain point yang paling sering disebut manajer koperasi selama discovery.',
+      },
+      {
+        src: '[path-to-crossplatform-ia.jpg]',
+        caption: 'Arsitektur informasi cross-platform: struktur web admin vs mobile member — navigasi, modul, dan role-based access.',
+      },
+      {
+        src: '[path-to-loan-wireframe.jpg]',
+        caption: 'Low-fi wireframe flow pengajuan pinjaman: dari input nominal, persetujuan, hingga konfirmasi pencairan.',
+      },
     ],
     tags: ['Product & UX Design', 'Mobile & Web Interface', 'Cross-Functional Collaboration', 'Information Architecture'],
     bento: '"g3 g3 g3 g3 g3 g3 g3 g3 g3 g3 g3 g3" "g1 g1 g1 g1 g1 g1 g1 g1 g1 g7 g7 g7" "g5 g5 g5 g5 g2 g2 g2 g2 g2 g2 g2 g2" "g4 g4 g4 g4 g4 g4 g6 g6 g6 g6 g6 g6"',
@@ -113,10 +173,53 @@ export const projects = [
       { title: 'Redesigned Dashboard', desc: 'Personalized home dashboard showing balance, recent transactions, and quick-access tiles tailored to actual usage patterns.' },
     ],
     metrics: [
-      { val: '+20%', label: 'Active Users in 3 Months' },
-      { val: '7→3', label: 'Navigation Levels' },
-      { val: '12', label: 'Users Tested Pre-Launch' },
-      { val: '↑', label: 'New Ecosystem Features' },
+      {
+        val: '+20%',
+        label: 'Active Users in 3 Months',
+        context: '[isi: diukur dari perbandingan Monthly Active User (MAU) 3 bulan setelah launch vs 3 bulan sebelum launch, dari data analytics backend Kisel]',
+      },
+      {
+        val: '7→3',
+        label: 'Navigation Levels',
+        context: 'Dihitung dari jumlah level navigasi minimum untuk mencapai semua fitur utama — 7 level pada sitemap lama vs 3 level sesudah redesign, berdasarkan audit heuristik dan sitemap.',
+      },
+      {
+        val: '12',
+        label: 'Users Tested Pre-Launch',
+        context: 'Sesi usability testing moderated dengan 12 anggota koperasi representatif, dilakukan 1 minggu sebelum production release.',
+      },
+      {
+        val: '↑',
+        label: 'New Ecosystem Features',
+        context: '[isi: diukur dari ...]',
+      },
+    ],
+    beforeAfter: {
+      before: {
+        label: 'Sebelum — Navigasi 7 Level',
+        desc: 'Pengguna harus melewati hingga 7 level menu bersarang untuk mencapai fitur utama seperti transfer dan riwayat transaksi. Hierarki yang dalam menyebabkan disorientasi, task abandonment, dan ketergantungan pada bantuan CS.',
+        src: null,
+      },
+      after: {
+        label: 'Sesudah — Navigasi 3 Level',
+        desc: 'Semua fitur utama dapat dicapai dalam maksimal 3 tap dari halaman utama. Flat bottom navigation menggantikan menu bersarang; quick-access tile menampilkan aksi paling sering digunakan langsung di home screen.',
+        src: null,
+      },
+      caption: 'Perombakan arsitektur navigasi dari 7 ke 3 level menghilangkan bottleneck terbesar yang diidentifikasi selama heuristic evaluation — dan secara langsung berkontribusi pada pertumbuhan +20% active user dalam 3 bulan pertama.',
+    },
+    processArtifacts: [
+      {
+        src: '[path-to-heuristic-report.jpg]',
+        caption: 'Heuristic evaluation report: 14 critical friction point yang diidentifikasi dari app lama — jadi prioritas utama redesign.',
+      },
+      {
+        src: '[path-to-ia-comparison.jpg]',
+        caption: 'Perbandingan sitemap: navigasi 7 level (before) vs arsitektur flat 3 level (after).',
+      },
+      {
+        src: '[path-to-usability-notes.jpg]',
+        caption: 'Synthesis usability testing: temuan dari 12 sesi, task completion rate, dan quote langsung dari user.',
+      },
     ],
     tags: ['UI/UX Redesign', 'User Flow Optimization', 'Feature Experience Design', 'Design System'],
     bento: '"g3 g3 g3 g3 g3 g3 g3 g3 g3 g3 g3 g3" "g1 g1 g1 g1 g1 g1 g1 g1 g1 g7 g7 g7" "g5 g5 g5 g5 g2 g2 g2 g2 g2 g2 g2 g2" "g4 g4 g4 g4 g4 g4 g6 g6 g6 g6 g6 g6"',
@@ -156,9 +259,21 @@ export const projects = [
       { title: 'Bill Payment Hub', desc: 'Consolidated electricity, water, and internet bill payments in one organized, categorized section.' },
     ],
     metrics: [
-      { val: '↓', label: 'Transaction Drop-off Rate' },
-      { val: '3', label: 'Payment Steps (from 6)' },
-      { val: '↑', label: 'User Satisfaction Score' },
+      {
+        val: '↓',
+        label: 'Transaction Drop-off Rate',
+        context: '[isi: diukur dari funnel analytics sebelum dan sesudah redesign, perbandingan drop-off pada step konfirmasi pembayaran]',
+      },
+      {
+        val: '3',
+        label: 'Payment Steps (from 6)',
+        context: 'Dihitung dari jumlah screen yang dilalui user untuk menyelesaikan 1 transaksi pembayaran — 6 langkah pada flow lama vs 3 langkah pada redesign, berdasarkan task flow mapping.',
+      },
+      {
+        val: '↑',
+        label: 'User Satisfaction Score',
+        context: '[isi: diukur dari ...]',
+      },
     ],
     tags: ['UI Redesign', 'UX Flow', 'System Design'],
     bento: '"g1 g1 g1 g1 g1 g1 g1 g1 g1 g1 g1 g1" "g5 g5 g5 g5 g5 g5 g5 g5 g3 g3 g3 g3" "g2 g2 g2 g2 g2 g2 g2 g4 g4 g4 g4 g4"',
@@ -197,9 +312,21 @@ export const projects = [
       { title: 'Performance Dashboard', desc: 'Real-time tracking of daily targets, completed visits, and conversion rates visible to both canvassers and managers.' },
     ],
     metrics: [
-      { val: '↑', label: 'Field Productivity' },
-      { val: '↓', label: 'Reporting Time' },
-      { val: '100%', label: 'Digital Visit Logging' },
+      {
+        val: '↑',
+        label: 'Field Productivity',
+        context: '[isi: diukur dari ...]',
+      },
+      {
+        val: '↓',
+        label: 'Reporting Time',
+        context: '[isi: diukur dari perbandingan waktu yang dihabiskan canvasser untuk laporan harian sebelum (manual) vs sesudah implementasi app]',
+      },
+      {
+        val: '100%',
+        label: 'Digital Visit Logging',
+        context: 'Seluruh kunjungan lapangan tercatat digital sejak launch; tidak ada laporan manual yang diterima setelah implementasi penuh.',
+      },
     ],
     tags: ['Workflow Design', 'UI Design', 'UX Optimization'],
     bento: '"g3 g3 g3 g3 g3 g3 g3 g3 g3 g3 g3 g3" "g2 g2 g2 g1 g1 g1 g1 g1 g1 g1 g1 g1" "g4 g4 g4 g4 g4 g4 g4 g4 g4 g4 g4 g4"',
@@ -237,9 +364,21 @@ export const projects = [
       { title: 'CoopIn Integration', desc: 'Synced with CoopIn ecosystem for cooperative member pricing, discounts, and centralized reporting.' },
     ],
     metrics: [
-      { val: '↑', label: 'Transaction Accuracy' },
-      { val: '↓', label: 'Checkout Time' },
-      { val: '↑', label: 'MSME Digital Adoption' },
+      {
+        val: '↑',
+        label: 'Transaction Accuracy',
+        context: '[isi: diukur dari ...]',
+      },
+      {
+        val: '↓',
+        label: 'Checkout Time',
+        context: '[isi: diukur dari perbandingan rata-rata waktu transaksi manual vs menggunakan app, dari observasi langsung saat prototype testing]',
+      },
+      {
+        val: '↑',
+        label: 'MSME Digital Adoption',
+        context: '[isi: diukur dari ...]',
+      },
     ],
     tags: ['UI Design', 'System Design', 'UX Strategy'],
     gallery: [
@@ -273,9 +412,21 @@ export const projects = [
       { title: 'Employee Self-Service', desc: 'Employees can access payslips, contracts, training records, and benefits information without contacting HR.' },
     ],
     metrics: [
-      { val: '↑', label: 'Employee Engagement' },
-      { val: '↑', label: 'Attendance Consistency' },
-      { val: '↓', label: 'HR Manual Workload' },
+      {
+        val: '↑',
+        label: 'Employee Engagement',
+        context: '[isi: diukur dari ...]',
+      },
+      {
+        val: '↑',
+        label: 'Attendance Consistency',
+        context: '[isi: diukur dari perbandingan persentase kehadiran tepat waktu sebelum dan sesudah fitur gamifikasi aktif, dari data HR]',
+      },
+      {
+        val: '↓',
+        label: 'HR Manual Workload',
+        context: '[isi: diukur dari ...]',
+      },
     ],
     tags: ['UI Redesign', 'UX Optimization', 'System Design'],
     bento: '"g3 g3 g3 g3 g3 g3 g3 g3 g3 g3 g3 g3" "g1 g1 g1 g1 g1 g1 g1 g1 g1 g7 g7 g7" "g6 g6 g6 g6 g2 g2 g2 g2 g2 g2 g2 g2" "g4 g4 g4 g4 g4 g4 g5 g5 g5 g5 g5 g5"',
@@ -316,9 +467,21 @@ export const projects = [
       { title: 'Operations Dashboard', desc: 'Real-time visibility into field team status, task progress, and operational KPIs for supervisors.' },
     ],
     metrics: [
-      { val: '↓', label: 'System Fragmentation' },
-      { val: '↑', label: 'Field Team Visibility' },
-      { val: '1', label: 'Unified Platform' },
+      {
+        val: '↓',
+        label: 'System Fragmentation',
+        context: '[isi: diukur dari ...]',
+      },
+      {
+        val: '↑',
+        label: 'Field Team Visibility',
+        context: '[isi: diukur dari ...]',
+      },
+      {
+        val: '1',
+        label: 'Unified Platform',
+        context: 'Konsolidasi dari 4 sistem terpisah (HRIS, field ops, building management, attendance) menjadi 1 platform terpadu.',
+      },
     ],
     tags: ['System Design', 'UI Design', 'UX Strategy'],
     bento: '"g2 g2 g2 g2 g2 g2 g2 g2 g2 g2 g2 g2" "g1 g1 g1 g1 g1 g1 g1 g1 g3 g3 g3 g3"',
@@ -355,9 +518,21 @@ export const projects = [
       { title: 'SLA & Reporting', desc: 'Service level tracking, resolution time reports, and agent performance dashboards for managers.' },
     ],
     metrics: [
-      { val: '↓', label: 'Average Resolution Time' },
-      { val: '↑', label: 'Request Visibility' },
-      { val: '0', label: 'Lost Tickets' },
+      {
+        val: '↓',
+        label: 'Average Resolution Time',
+        context: '[isi: diukur dari perbandingan rata-rata waktu resolusi tiket sebelum (email/telepon) vs sesudah sistem helpdesk, dari log sistem]',
+      },
+      {
+        val: '↑',
+        label: 'Request Visibility',
+        context: '[isi: diukur dari ...]',
+      },
+      {
+        val: '0',
+        label: 'Lost Tickets',
+        context: '[isi: selama periode pilot dengan 1 subsidiary, tidak ada tiket yang hilang — diverifikasi dari log sistem vs laporan manual sebelumnya]',
+      },
     ],
     tags: ['UI Design', 'Workflow Design', 'System Design'],
     bento: '"g1 g1 g1 g1 g1 g1 g1 g1 g1 g1 g1 g1" "g2 g2 g2 g2 g2 g2 g3 g3 g3 g3 g3 g3"',
@@ -394,9 +569,21 @@ export const projects = [
       { title: 'Ward Dashboard', desc: 'Real-time ward overview showing patient status, pending documentation, and current care priorities.' },
     ],
     metrics: [
-      { val: '↑', label: 'Documentation Accuracy' },
-      { val: '↓', label: 'Record Retrieval Time' },
-      { val: '↑', label: 'Protocol Consistency' },
+      {
+        val: '↑',
+        label: 'Documentation Accuracy',
+        context: '[isi: diukur dari ...]',
+      },
+      {
+        val: '↓',
+        label: 'Record Retrieval Time',
+        context: '[isi: diukur dari perbandingan waktu rata-rata perawat menemukan data pasien sebelum (cari di kertas) vs sesudah (digital search)]',
+      },
+      {
+        val: '↑',
+        label: 'Protocol Consistency',
+        context: '[isi: diukur dari ...]',
+      },
     ],
     tags: ['UI Design', 'UX Strategy', 'Platform Design'],
     bento: '"g1 g1 g1 g1 g1 g1 g1 g1 g1 g1 g1 g1" "g2 g2 g2 g2 g2 g2 g3 g3 g3 g3 g3 g3"',
@@ -433,9 +620,21 @@ export const projects = [
       { title: 'Delivery Tracking', desc: 'Order status visibility from processing through dispatch to final delivery confirmation for all parties.' },
     ],
     metrics: [
-      { val: '↓', label: 'Fulfillment Delays' },
-      { val: '↑', label: 'Order Visibility' },
-      { val: '↓', label: 'Inventory Mismatch' },
+      {
+        val: '↓',
+        label: 'Fulfillment Delays',
+        context: '[isi: diukur dari ...]',
+      },
+      {
+        val: '↑',
+        label: 'Order Visibility',
+        context: '[isi: diukur dari ...]',
+      },
+      {
+        val: '↓',
+        label: 'Inventory Mismatch',
+        context: '[isi: diukur dari perbandingan selisih antara stok sistem vs stok fisik sebelum dan sesudah OMS diterapkan]',
+      },
     ],
     tags: ['Product Design', 'UX Strategy', 'UI Design'],
     bento: '"g1 g1 g1 g1 g1 g1 g1 g1 g1 g1 g1 g1" "g2 g2 g2 g2 g2 g2 g3 g3 g3 g3 g3 g3"',

@@ -164,7 +164,7 @@ export default function Navbar() {
               </a>
               <button
                 onClick={open ? closeMenu : () => setOpen(true)}
-                className="flex items-center gap-2 px-3.5 py-2 rounded-lg text-white/70 hover:text-lime transition-colors text-[11px] font-bold tracking-[0.15em] uppercase border border-white/15 hover:border-lime/40">
+                className="lg:hidden flex items-center gap-2 px-3.5 py-2 rounded-lg text-white/70 hover:text-lime transition-colors text-[11px] font-bold tracking-[0.15em] uppercase border border-white/15 hover:border-lime/40">
                 <span ref={menuIconRef} style={{ display: 'inline-flex' }}>
                   {open ? <X size={13} /> : <Menu size={13} />}
                 </span>
