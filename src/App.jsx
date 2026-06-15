@@ -17,6 +17,7 @@ import ScrollProgress from './components/ScrollProgress'
 import CursorGlow from './components/CursorGlow'
 import CustomCursor from './components/CustomCursor'
 import BackgroundFX from './components/BackgroundFX'
+import Marquee from './components/Marquee'
 
 function Home() {
   return (
@@ -30,6 +31,7 @@ function Home() {
         <Hero />
         <About />
         <FeaturedProjects />
+        <Marquee />
         <DesignApproach />
         <MoreProjects />
         <Skills />

@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { splitWords, splitChars } from '../utils/splitText'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -19,13 +20,35 @@ export default function Skills() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const st = { trigger: sectionRef.current, start: 'top 78%' }
-      gsap.fromTo(headerRef.current, { opacity: 0, y: 24 },
-        { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', scrollTrigger: st })
+      const st  = { trigger: sectionRef.current, start: 'top 78%' }
+      const lst = { trigger: listRef.current, start: 'top 82%' }
+      const h2  = headerRef.current?.querySelector('h2')
+      const label = headerRef.current?.querySelector('.label-tag')
+
+      gsap.fromTo(label, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', scrollTrigger: st })
+
+      if (h2) {
+        const words = splitWords(h2.children[0])
+        const chars = splitChars(h2.children[1])
+        gsap.from(words, { y: '105%', duration: 0.7, stagger: 0.09, ease: 'power3.out', scrollTrigger: st })
+        gsap.from(chars, { y: '105%', stagger: 0.05, duration: 0.55, ease: 'back.out(2.5)', scrollTrigger: st })
+      }
+
+      // Rows slide in
       if (listRef.current)
-        gsap.fromTo(listRef.current.children, { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 0.5, stagger: 0.08, ease: 'power2.out', delay: 0.2,
-            scrollTrigger: { trigger: listRef.current, start: 'top 82%' } })
+        gsap.fromTo(listRef.current.children, { opacity: 0, x: -20 },
+          { opacity: 1, x: 0, duration: 0.5, stagger: 0.08, ease: 'power2.out', scrollTrigger: lst })
+
+      // Each individual skill tag pops in
+      const tags = listRef.current?.querySelectorAll('.skill-tag')
+      if (tags?.length)
+        gsap.from(tags, {
+          scale: 0.6, opacity: 0,
+          stagger: { amount: 0.9, from: 'start' },
+          duration: 0.4, ease: 'back.out(2)',
+          delay: 0.15,
+          scrollTrigger: lst,
+        })
     }, sectionRef)
     return () => ctx.revert()
   }, [])
@@ -82,7 +105,7 @@ export default function Skills() {
                   <div className="flex flex-wrap gap-2 sm:col-span-2">
                     {g.tags.map((t) => (
                       <span key={t}
-                        className="text-xs font-medium text-white/40 border border-white/10 rounded-full px-3 py-1.5
+                        className="skill-tag text-xs font-medium text-white/40 border border-white/10 rounded-full px-3 py-1.5
                           hover:bg-lime hover:text-dark hover:border-lime transition-all cursor-default">
                         {t}
                       </span>

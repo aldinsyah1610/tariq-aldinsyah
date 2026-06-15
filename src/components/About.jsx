@@ -16,8 +16,32 @@ export default function About() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       const st = { trigger: sectionRef.current, start: 'top 78%' }
+
       gsap.fromTo(leftRef.current,  { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out', scrollTrigger: st })
       gsap.fromTo(rightRef.current, { opacity: 0, x:  40 }, { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out', delay: 0.15, scrollTrigger: st })
+
+      // Photo parallax scrub
+      const photo = leftRef.current?.querySelector('.photo-parallax')
+      if (photo)
+        gsap.to(photo, {
+          y: -40,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1.5,
+          },
+        })
+
+      // Skill tags pop in
+      const pills = leftRef.current?.querySelectorAll('.pill')
+      if (pills?.length)
+        gsap.from(pills, {
+          opacity: 0, scale: 0.7, y: 8,
+          stagger: 0.05, duration: 0.4, ease: 'back.out(2)', delay: 0.4,
+          scrollTrigger: st,
+        })
     }, sectionRef)
     return () => ctx.revert()
   }, [])
@@ -46,11 +70,14 @@ export default function About() {
           <div ref={leftRef} className="flex flex-col">
             {/* Photo — stretches to fill remaining height */}
             <div className="flex-1 min-h-0 rounded-2xl overflow-hidden relative mb-6" style={{ minHeight: '320px' }}>
-              <ImageWithSkeleton
-                src="/tariq-photo.jpg"
-                alt="Tariq Aldinsyah"
-                imgClassName="absolute inset-0 w-full h-full object-cover object-top"
-              />
+              <div className="photo-parallax absolute inset-0" style={{ willChange: 'transform' }}>
+                <ImageWithSkeleton
+                  src="/tariq-photo.jpg"
+                  alt="Tariq Aldinsyah"
+                  imgClassName="w-full h-full object-cover object-top"
+                  style={{ transform: 'scale(1.12)' }}
+                />
+              </div>
             </div>
 
             {/* Skill tags */}

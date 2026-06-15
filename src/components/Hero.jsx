@@ -10,23 +10,40 @@ export default function Hero() {
   const metaRef      = useRef(null)
   const line1Ref     = useRef(null)
   const line2Ref     = useRef(null)
+  const italicRef    = useRef(null)
   const descRef      = useRef(null)
   const ctaRef       = useRef(null)
   const phoneWrapRef = useRef(null)
   const phoneRef     = useRef(null)
   const viewBtnRef   = useRef(null)
   const aboutBtnRef  = useRef(null)
+  const sectionRef   = useRef(null)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      // Clip-path initial state on italic gradient text
+      gsap.set(italicRef.current, { clipPath: 'inset(0 100% 0 0)' })
+
       const tl = gsap.timeline({ delay: 0.3 })
       tl
         .fromTo(metaRef.current,  { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' })
-        .fromTo(line1Ref.current, { y: '120%' },          { y: '0%',  duration: 1.1, ease: 'power4.out' }, '-=0.1')
-        .fromTo(line2Ref.current, { y: '120%' },          { y: '0%',  duration: 1.1, ease: 'power4.out' }, '-=0.75')
+        .fromTo(line1Ref.current, { y: '120%' },          { y: '0%',  duration: 1.0, ease: 'power4.out' }, '-=0.1')
+        // italic text wipe-in from left after line1 arrives
+        .to(italicRef.current, { clipPath: 'inset(0 0% 0 0)', duration: 0.7, ease: 'power3.inOut' }, '-=0.1')
+        .fromTo(line2Ref.current, { y: '120%' },          { y: '0%',  duration: 1.0, ease: 'power4.out' }, '-=0.55')
         .fromTo(descRef.current,  { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, '-=0.5')
         .fromTo(ctaRef.current,   { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, '-=0.4')
         .fromTo(phoneWrapRef.current, { opacity: 0, x: 60, scale: 0.93 }, { opacity: 1, x: 0, scale: 1, duration: 1.1, ease: 'power3.out' }, '-=0.85')
+
+      // Sparkle markers pop in with bounce
+      const sparkles = sectionRef.current?.querySelectorAll('.sparkle')
+      if (sparkles?.length) {
+        gsap.from(sparkles, {
+          scale: 0, opacity: 0, rotation: -45,
+          stagger: 0.15, duration: 0.6, ease: 'back.out(3)',
+          delay: 1.2,
+        })
+      }
 
       // Float loop on inner phone div
       gsap.to(phoneRef.current, {
@@ -60,7 +77,7 @@ export default function Hero() {
   })
 
   return (
-    <section className="relative flex flex-col justify-center overflow-hidden bg-dark pt-16">
+    <section ref={sectionRef} className="relative flex flex-col justify-center overflow-hidden bg-dark pt-16">
       <div className="absolute inset-0 grid-overlay opacity-60" />
 
       <span className="sparkle absolute top-24 left-[8%] text-lg select-none">+</span>
@@ -95,13 +112,14 @@ export default function Hero() {
                 <span className="block overflow-hidden">
                   <span ref={line1Ref} className="block">
                     <span className="text-white">Building Scalable </span>
-                    <span className="font-serif italic font-semibold"
+                    <span ref={italicRef} className="font-serif italic font-semibold"
                       style={{
                         fontSize: '0.9em',
                         background: 'linear-gradient(135deg, #C0F53D 0%, #6fa818 100%)',
                         WebkitBackgroundClip: 'text',
                         WebkitTextFillColor: 'transparent',
                         backgroundClip: 'text',
+                        display: 'inline-block',
                       }}>Digital Ecosystem</span>
                   </span>
                 </span>

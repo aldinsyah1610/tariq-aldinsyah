@@ -2,21 +2,49 @@ import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ArrowRight, ExternalLink, Globe, Phone } from 'lucide-react'
+import { splitWords, splitChars } from '../utils/splitText'
 
 gsap.registerPlugin(ScrollTrigger)
 
 export default function Contact() {
-  const sectionRef = useRef(null)
-  const darkRef    = useRef(null)
-  const limeRef    = useRef(null)
+  const sectionRef  = useRef(null)
+  const darkRef     = useRef(null)
+  const limeRef     = useRef(null)
+  const h2Ref       = useRef(null)
+  const linkIconsRef = useRef(null)
+  const sparkleRef  = useRef(null)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(darkRef.current, { opacity: 0, y: 40 },
-        { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
-          scrollTrigger: { trigger: sectionRef.current, start: 'top 85%' } })
-      gsap.fromTo(limeRef.current, { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.3,
+      const st = { trigger: sectionRef.current, start: 'top 85%' }
+
+      // Link icons bounce in
+      const icons = linkIconsRef.current?.querySelectorAll('.contact-icon')
+      if (icons?.length)
+        gsap.from(icons, { scale: 0, opacity: 0, rotation: -90, stagger: 0.1, duration: 0.5, ease: 'back.out(3)', scrollTrigger: st })
+
+      const links = linkIconsRef.current?.querySelectorAll('a')
+      if (links?.length)
+        gsap.fromTo(links, { opacity: 0, y: 12 }, { opacity: 1, y: 0, stagger: 0.1, duration: 0.5, ease: 'power2.out', scrollTrigger: st })
+
+      // Heading word + char reveal
+      if (h2Ref.current) {
+        const words = splitWords(h2Ref.current.children[0])
+        const chars = splitChars(h2Ref.current.children[1])
+        gsap.from(words, { y: '105%', duration: 0.75, stagger: 0.09, ease: 'power3.out', scrollTrigger: st })
+        gsap.from(chars, { y: '105%', stagger: 0.06, duration: 0.55, ease: 'back.out(2.5)', scrollTrigger: st })
+      }
+
+      // Sparkle badge spin
+      if (sparkleRef.current)
+        gsap.fromTo(sparkleRef.current,
+          { scale: 0, rotation: -180 },
+          { scale: 1, rotation: 0, duration: 0.8, ease: 'back.out(2)', scrollTrigger: st }
+        )
+
+      // Lime CTA block scale in
+      gsap.fromTo(limeRef.current, { opacity: 0, y: 30, scale: 0.97 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: 'power3.out', delay: 0.3,
           scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' } })
     }, sectionRef)
     return () => ctx.revert()
@@ -32,31 +60,31 @@ export default function Contact() {
 
         <div className="relative">
           {/* Links row */}
-          <div className="flex flex-wrap justify-center gap-8 mb-16 text-white/25 text-xs tracking-widest uppercase">
+          <div ref={linkIconsRef} className="flex flex-wrap justify-center gap-8 mb-16 text-white/25 text-xs tracking-widest uppercase">
             <a href="https://linkedin.com/in/tariqaldinsyah" target="_blank" rel="noopener noreferrer"
               className="flex items-center gap-2 hover:text-lime transition-colors">
-              <ExternalLink size={11} />linkedin.com/in/tariqaldinsyah
+              <ExternalLink size={11} className="contact-icon" />linkedin.com/in/tariqaldinsyah
             </a>
             <a href="https://behance.net/tariqaldinsyah" target="_blank" rel="noopener noreferrer"
               className="flex items-center gap-2 hover:text-lime transition-colors">
-              <Globe size={11} />behance.net/tariqaldinsyah
+              <Globe size={11} className="contact-icon" />behance.net/tariqaldinsyah
             </a>
             <a href="tel:+62811922857"
               className="flex items-center gap-2 hover:text-lime transition-colors">
-              <Phone size={11} />+62 811 922 857
+              <Phone size={11} className="contact-icon" />+62 811 922 857
             </a>
           </div>
 
-          {/* Giant heading — like "What our clients are saying." */}
-          <h2 className="font-black leading-[1.05] tracking-tight text-white mb-4"
+          {/* Giant heading */}
+          <h2 ref={h2Ref} className="font-black leading-[1.05] tracking-tight text-white mb-4"
             style={{ fontSize: 'clamp(1.8rem, 4vw, 4.2rem)' }}>
-            Interested in working{' '}
+            <span className="text-white">Interested in working{' '}</span>
             <span className="font-serif italic font-semibold text-lime">together?</span>
           </h2>
 
-          {/* Circular badge — like Adspace globe badge */}
+          {/* Circular badge */}
           <div className="w-20 h-20 rounded-full border-2 border-lime/30 flex items-center justify-center mx-auto my-10">
-            <span className="text-lime text-2xl">✦</span>
+            <span ref={sparkleRef} className="text-lime text-2xl inline-block">✦</span>
           </div>
         </div>
       </div>

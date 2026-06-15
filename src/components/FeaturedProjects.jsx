@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ArrowUpRight } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import ImageWithSkeleton from './ImageWithSkeleton'
+import { splitWords, splitChars } from '../utils/splitText'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -68,9 +69,19 @@ export default function FeaturedProjects() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(headerRef.current, { opacity: 0, y: 24 },
-        { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
-          scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' } })
+      const st = { trigger: sectionRef.current, start: 'top 80%' }
+      const h2 = headerRef.current?.querySelector('h2')
+      const label = headerRef.current?.querySelector('.label-tag')
+
+      // Label fade-in
+      gsap.fromTo(label, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', scrollTrigger: st })
+
+      if (h2) {
+        const words = splitWords(h2.children[0])
+        const chars = splitChars(h2.children[1])
+        gsap.from(words, { y: '105%', duration: 0.7, stagger: 0.09, ease: 'power3.out', scrollTrigger: st })
+        gsap.from(chars, { y: '105%', stagger: 0.05, duration: 0.55, ease: 'back.out(2.5)', scrollTrigger: st })
+      }
     }, sectionRef)
     return () => ctx.revert()
   }, [])

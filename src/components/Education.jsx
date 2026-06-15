@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ArrowUpRight } from 'lucide-react'
+import { splitWords, splitChars } from '../utils/splitText'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -20,18 +21,53 @@ const achievements = [
 ]
 
 export default function Education() {
-  const sectionRef = useRef(null)
-  const eduRef     = useRef(null)
-  const achRef     = useRef(null)
+  const sectionRef  = useRef(null)
+  const headerRef   = useRef(null)
+  const eduRef      = useRef(null)
+  const achRef      = useRef(null)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      const hst = { trigger: sectionRef.current, start: 'top 80%' }
+      const h2  = headerRef.current?.querySelector('h2')
+      const label = headerRef.current?.querySelector('.label-tag')
+
+      // Heading word reveal
+      gsap.fromTo(label, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', scrollTrigger: hst })
+      if (h2) {
+        const words = splitWords(h2.children[0])
+        const chars = splitChars(h2.children[1])
+        gsap.from(words, { y: '105%', duration: 0.7, stagger: 0.08, ease: 'power3.out', scrollTrigger: hst })
+        gsap.from(chars, { y: '105%', stagger: 0.055, duration: 0.55, ease: 'back.out(2.5)', scrollTrigger: hst })
+      }
+
+      // Education cards slide up
       gsap.fromTo(eduRef.current?.children, { opacity: 0, y: 36 },
         { opacity: 1, y: 0, duration: 0.7, stagger: 0.1, ease: 'power3.out',
           scrollTrigger: { trigger: eduRef.current, start: 'top 82%' } })
+
+      // Achievements block
       gsap.fromTo(achRef.current, { opacity: 0, y: 36 },
         { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
           scrollTrigger: { trigger: achRef.current, start: 'top 84%' } })
+
+      // Each achievement row slides in from left
+      const achRows = achRef.current?.querySelectorAll('.ach-row')
+      if (achRows?.length)
+        gsap.from(achRows, {
+          opacity: 0, x: -24,
+          stagger: 0.07, duration: 0.5, ease: 'power2.out', delay: 0.3,
+          scrollTrigger: { trigger: achRef.current, start: 'top 84%' },
+        })
+
+      // ArrowUpRight icons bounce in
+      const arrows = achRef.current?.querySelectorAll('.ach-arrow')
+      if (arrows?.length)
+        gsap.from(arrows, {
+          scale: 0, opacity: 0,
+          stagger: 0.07, duration: 0.4, ease: 'back.out(3)', delay: 0.5,
+          scrollTrigger: { trigger: achRef.current, start: 'top 84%' },
+        })
     }, sectionRef)
     return () => ctx.revert()
   }, [])
@@ -44,7 +80,7 @@ export default function Education() {
       <div className="relative max-w-7xl mx-auto px-5 sm:px-8 space-y-8">
 
         {/* Heading */}
-        <div className="mb-12">
+        <div ref={headerRef} className="mb-12">
           <p className="label-tag mb-4">Education & Certification</p>
           <h2 className="font-black leading-[1.05] tracking-tight"
             style={{ fontSize: 'clamp(1.8rem, 4vw, 4.2rem)' }}>
@@ -85,7 +121,7 @@ export default function Education() {
             <div className="lg:col-span-2 divide-y divide-[#1e2a0a]">
               {achievements.map((a, i) => (
                 <div key={a.title}
-                  className="px-8 py-5 flex items-start justify-between gap-4 group hover:bg-lime/[0.03] transition-colors cursor-default">
+                  className="ach-row px-8 py-5 flex items-start justify-between gap-4 group hover:bg-lime/[0.03] transition-colors cursor-default">
                   <div className="flex items-start gap-3">
                     <span className="text-lime/40 text-sm font-bold tabular-nums flex-shrink-0">
                       {String(i + 1).padStart(2, '0')}
@@ -95,7 +131,7 @@ export default function Education() {
                       <p className="text-white/30 text-xs uppercase tracking-wider mt-1">{a.org}</p>
                     </div>
                   </div>
-                  <ArrowUpRight size={14} className="text-white/20 group-hover:text-lime transition-colors flex-shrink-0 mt-1" />
+                  <ArrowUpRight size={14} className="ach-arrow text-white/20 group-hover:text-lime transition-colors flex-shrink-0 mt-1" />
                 </div>
               ))}
             </div>

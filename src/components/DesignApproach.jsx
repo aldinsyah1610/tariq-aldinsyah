@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { Search, Compass, Layers, Users, CheckCircle } from 'lucide-react'
+import { splitWords, splitChars } from '../utils/splitText'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -58,9 +59,23 @@ export default function DesignApproach() {
       const hST = { trigger: sectionRef.current, start: 'top 78%' }
       const bST = { trigger: barRef.current,     start: 'top 80%' }
 
-      // Header
-      gsap.fromTo(headerRef.current, { opacity: 0, y: 24 },
-        { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', scrollTrigger: hST })
+      // Header label
+      const label = headerRef.current?.querySelector('.label-tag')
+      gsap.fromTo(label, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', scrollTrigger: hST })
+
+      // h2 word reveal
+      const h2 = headerRef.current?.querySelector('h2')
+      if (h2) {
+        const words = splitWords(h2.children[0])
+        const chars = splitChars(h2.children[1])
+        gsap.from(words, { y: '105%', duration: 0.7, stagger: 0.09, ease: 'power3.out', scrollTrigger: hST })
+        gsap.from(chars, { y: '105%', stagger: 0.055, duration: 0.55, ease: 'back.out(2.5)', scrollTrigger: hST })
+      }
+
+      // Principle pills stagger
+      const pills = headerRef.current?.querySelectorAll('.pill')
+      if (pills?.length)
+        gsap.from(pills, { opacity: 0, scale: 0.7, stagger: 0.06, duration: 0.4, ease: 'back.out(2)', scrollTrigger: hST })
 
       // Icons drop down
       gsap.fromTo(iconRefs.current, { opacity: 0, y: -18 },
@@ -124,9 +139,11 @@ export default function DesignApproach() {
             {steps.map((step, i) => (
               <div key={i} className="flex-1 flex flex-col items-center">
                 <div ref={el => iconRefs.current[i] = el}
-                  className="w-11 h-11 rounded-full flex items-center justify-center"
-                  style={{ background: 'var(--card)', border: '1px solid rgba(192,245,61,0.22)' }}>
-                  <step.Icon size={16} className="text-lime" />
+                  className="w-11 h-11 rounded-full flex items-center justify-center cursor-default"
+                  style={{ background: 'var(--card)', border: '1px solid rgba(192,245,61,0.22)' }}
+                  onMouseEnter={e => gsap.to(e.currentTarget.querySelector('svg'), { rotation: 360, duration: 0.5, ease: 'power2.out', overwrite: 'auto' })}
+                  onMouseLeave={e => gsap.to(e.currentTarget.querySelector('svg'), { rotation: 0, duration: 0.4, ease: 'power2.inOut', overwrite: 'auto' })}>
+                  <step.Icon size={16} className="text-lime" style={{ display: 'block' }} />
                 </div>
               </div>
             ))}
