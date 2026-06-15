@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { ArrowLeft, ArrowRight, Calendar, Building2, User } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ArrowDown, Calendar, Building2, User } from 'lucide-react'
 import { getProjectById, getNextProject } from '../data/projects'
 import ImageWithSkeleton from '../components/ImageWithSkeleton'
 import Navbar from '../components/Navbar'
@@ -143,6 +143,37 @@ export default function ProjectDetail() {
           </div>
         </div>
 
+        {/* Before & After */}
+        {project.beforeAfter && (
+          <div className="pd-section">
+            <SectionLabel>Before &amp; After</SectionLabel>
+            <div className="mt-6">
+              {/* Desktop */}
+              <div className="hidden md:grid md:grid-cols-[1fr_32px_1fr] gap-2 items-center">
+                <BeforeAfterCard type="before" data={project.beforeAfter.before} />
+                <div className="flex justify-center">
+                  <ArrowRight size={18} style={{ color: 'var(--lime-text)', opacity: 0.5 }} />
+                </div>
+                <BeforeAfterCard type="after" data={project.beforeAfter.after} />
+              </div>
+              {/* Mobile */}
+              <div className="md:hidden space-y-3">
+                <BeforeAfterCard type="before" data={project.beforeAfter.before} />
+                <div className="flex justify-center py-1">
+                  <ArrowDown size={16} style={{ color: 'var(--lime-text)', opacity: 0.5 }} />
+                </div>
+                <BeforeAfterCard type="after" data={project.beforeAfter.after} />
+              </div>
+            </div>
+            {project.beforeAfter.caption && (
+              <p className="mt-5 text-xs leading-relaxed italic text-center"
+                style={{ color: 'var(--text-40)' }}>
+                {project.beforeAfter.caption}
+              </p>
+            )}
+          </div>
+        )}
+
         {/* Design Process */}
         <div className="pd-section">
           <SectionLabel>Design Process</SectionLabel>
@@ -173,6 +204,31 @@ export default function ProjectDetail() {
             </div>
           </div>
         </div>
+
+        {/* Process Artifacts */}
+        {project.processArtifacts?.some(a => a.src && !a.src.startsWith('[')) && (
+          <div className="pd-section">
+            <SectionLabel>Process Artifacts</SectionLabel>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+              {project.processArtifacts
+                .filter(a => a.src && !a.src.startsWith('['))
+                .map((artifact, i) => (
+                  <div key={i} className="rounded-2xl overflow-hidden"
+                    style={{ background: 'var(--card)', border: '1px solid var(--border)' }}>
+                    <div className="aspect-video overflow-hidden" style={{ background: 'var(--medium)' }}>
+                      <ImageWithSkeleton src={artifact.src} alt={artifact.caption}
+                        imgClassName="w-full h-full object-cover" />
+                    </div>
+                    <div className="p-4">
+                      <p className="text-xs leading-relaxed" style={{ color: 'var(--text-50)' }}>
+                        {artifact.caption}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </div>
+        )}
 
         {/* Key Features */}
         <div className="pd-section">
@@ -244,10 +300,16 @@ export default function ProjectDetail() {
           <SectionLabel>Impact & Results</SectionLabel>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
             {project.metrics.map((m, i) => (
-              <div key={i} className="rounded-2xl p-6 text-center"
+              <div key={i} className="rounded-2xl p-6 text-center flex flex-col items-center"
                 style={{ background: 'var(--card)', border: '1px solid var(--border)' }}>
                 <p className="text-lime font-black text-2xl leading-none mb-2">{m.val}</p>
                 <p className="text-xs leading-tight" style={{ color: 'var(--text-30)' }}>{m.label}</p>
+                {m.context && !m.context.startsWith('[isi:') && (
+                  <p className="text-[10px] leading-relaxed mt-3 italic"
+                    style={{ color: 'var(--text-30)', borderTop: '1px solid var(--border)', paddingTop: '0.5rem', width: '100%' }}>
+                    {m.context}
+                  </p>
+                )}
               </div>
             ))}
           </div>
@@ -284,6 +346,36 @@ function SectionLabel({ children }) {
     <div className="flex items-center gap-3">
       <div className="w-1 h-5 rounded-full bg-lime" />
       <p className="label-tag">{children}</p>
+    </div>
+  )
+}
+
+function BeforeAfterCard({ type, data }) {
+  const isAfter = type === 'after'
+  return (
+    <div className="rounded-2xl overflow-hidden"
+      style={{
+        background: 'var(--card)',
+        border: isAfter ? '1px solid rgba(192,245,61,0.22)' : '1px solid var(--border)',
+      }}>
+      {data.src && (
+        <div className="aspect-video overflow-hidden" style={{ background: 'var(--medium)' }}>
+          <ImageWithSkeleton src={data.src} alt={data.label}
+            imgClassName="w-full h-full object-cover" />
+        </div>
+      )}
+      <div className="p-6">
+        <p className="text-[10px] font-black tracking-[0.18em] uppercase mb-3"
+          style={{ color: isAfter ? 'var(--lime-text)' : 'var(--text-30)' }}>
+          {isAfter ? 'After' : 'Before'}
+        </p>
+        <h4 className="font-bold text-sm mb-3" style={{ color: 'var(--text)' }}>
+          {data.label}
+        </h4>
+        <p className="text-xs leading-relaxed" style={{ color: 'var(--text-50)' }}>
+          {data.desc}
+        </p>
+      </div>
     </div>
   )
 }

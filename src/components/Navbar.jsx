@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useLayoutEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { Menu, X, Sun, Moon, ArrowUpRight } from 'lucide-react'
 import { useTheme } from '../hooks/useTheme'
@@ -15,7 +15,7 @@ const navLinks = [
 ]
 
 export default function Navbar() {
-  const [open, setOpen]       = useState(false)
+  const [open, setOpen]         = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const navRef       = useRef(null)
   const overlayRef   = useRef(null)
@@ -56,8 +56,6 @@ export default function Navbar() {
 
   // Nav drop-in — wait for preloader
   useEffect(() => {
-    // Preloader z-[9999] covers the navbar during loading.
-    // Animate in ~300ms after preloader finishes sliding out (~2.45s total).
     gsap.fromTo(navRef.current,
       { y: -60, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out', delay: 2.75 }
@@ -73,40 +71,60 @@ export default function Navbar() {
       document.body.style.overflow = ''
       if (window.__lenis) window.__lenis.start()
     }
-    return () => {
-      document.body.style.overflow = ''
-    }
+    return () => { document.body.style.overflow = '' }
   }, [open])
 
-  // Open animation — runs after overlay mounts
-  useEffect(() => {
+  // Open animation — useLayoutEffect so GSAP sets initial states BEFORE browser paint.
+  // This prevents the overlay from flashing on-screen or links staying invisible if
+  // useEffect fired too late on slower mobile devices.
+  useLayoutEffect(() => {
     if (!open || !overlayRef.current) return
-    const links = linksRef.current.filter(Boolean)
+    const links   = linksRef.current.filter(Boolean)
+    const side    = sideRef.current
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-    gsap.killTweensOf([overlayRef.current, ...links, sideRef.current])
+    gsap.killTweensOf([overlayRef.current, ...links, side].filter(Boolean))
+
+    if (reduced) {
+      gsap.set(overlayRef.current, { yPercent: 0 })
+      gsap.set(links, { opacity: 1, y: 0 })
+      if (side) gsap.set(side, { opacity: 1, x: 0 })
+      return
+    }
+
+    // Set hidden state synchronously — before first paint — so nothing flashes
+    gsap.set(overlayRef.current, { yPercent: -100 })
+    gsap.set(links, { opacity: 0, y: 50 })
+    if (side) gsap.set(side, { opacity: 0, x: 20 })
+
     const tl = gsap.timeline()
-    tl.fromTo(overlayRef.current, { yPercent: -100 }, { yPercent: 0, duration: 0.75, ease: 'power4.inOut' })
-      .fromTo(links, { y: 50, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.065, duration: 0.55, ease: 'power3.out' }, '-=0.35')
-      .fromTo(sideRef.current, { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 0.45, ease: 'power2.out' }, '-=0.35')
+    tl.to(overlayRef.current, { yPercent: 0, duration: 0.75, ease: 'power4.inOut' })
+      .to(links, { opacity: 1, y: 0, stagger: 0.065, duration: 0.55, ease: 'power3.out' }, '-=0.35')
+
+    if (side) {
+      tl.to(side, { opacity: 1, x: 0, duration: 0.45, ease: 'power2.out' }, '-=0.35')
+    }
+
+    return () => tl.kill()
   }, [open])
 
   const closeMenu = () => {
     // Restore scroll immediately — don't wait for onComplete.
-    // body.overflow + lenis.stop() are still active here; scrollTo() at 780ms would fail otherwise.
     document.body.style.overflow = ''
     if (window.__lenis) window.__lenis.start()
 
     const links = linksRef.current.filter(Boolean)
+    const side  = sideRef.current
     const tl = gsap.timeline({ onComplete: () => setOpen(false) })
     tl.to([...links].reverse(), { y: -20, opacity: 0, stagger: 0.04, duration: 0.3, ease: 'power2.in' })
-      .to(sideRef.current, { opacity: 0, duration: 0.2 }, '<')
-      .to(overlayRef.current, { yPercent: -100, duration: 0.65, ease: 'power4.inOut' }, '-=0.1')
+    if (side) tl.to(side, { opacity: 0, duration: 0.2 }, '<')
+    tl.to(overlayRef.current, { yPercent: -100, duration: 0.65, ease: 'power4.inOut' }, '-=0.1')
   }
 
   const scrollTo = (href) => {
     const el = document.querySelector(href)
     if (!el) return
-    if (window.__lenis) window.__lenis.start(), window.__lenis.scrollTo(el)
+    if (window.__lenis) { window.__lenis.start(); window.__lenis.scrollTo(el) }
     else el.scrollIntoView({ behavior: 'smooth' })
   }
 
@@ -175,11 +193,12 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Fullscreen overlay — conditionally rendered, animated via useEffect */}
+      {/* Fullscreen overlay — no inline transform/opacity; GSAP handles all initial states
+          via useLayoutEffect so nothing flashes before animation starts */}
       {open && (
         <div ref={overlayRef}
           className="fixed inset-0 z-[99] flex"
-          style={{ background: '#070707', transform: 'translateY(-100%)' }}>
+          style={{ background: '#070707' }}>
 
           {/* Left — large nav links */}
           <div className="flex-1 flex flex-col justify-center px-10 lg:px-20 overflow-y-auto">
@@ -187,7 +206,7 @@ export default function Navbar() {
               <NavOverlayLink
                 key={l.href}
                 link={l}
-                innerRef={el => linksRef.current[i] = el}
+                innerRef={el => { linksRef.current[i] = el }}
                 onClick={() => go(l.href)}
               />
             ))}
@@ -195,8 +214,7 @@ export default function Navbar() {
 
           {/* Right — contact + social (desktop only) */}
           <div ref={sideRef}
-            className="hidden lg:flex flex-col justify-between w-72 px-10 py-16 border-l border-white/[0.07]"
-            style={{ opacity: 0 }}>
+            className="hidden lg:flex flex-col justify-between w-72 px-10 py-16 border-l border-white/[0.07]">
             <div>
               <p className="text-white/25 text-[10px] uppercase tracking-[0.3em] mb-6">Contact</p>
               <a href="mailto:aldinsyah1610@gmail.com"
@@ -240,8 +258,7 @@ function NavOverlayLink({ link, innerRef, onClick }) {
       onClick={onClick}
       onMouseEnter={scramble}
       onMouseLeave={reset}
-      className="group flex items-baseline gap-5 py-4 lg:py-5 cursor-pointer border-b border-white/[0.06] hover:border-lime/20 transition-colors"
-      style={{ opacity: 0 }}>
+      className="group flex items-baseline gap-5 py-4 lg:py-5 cursor-pointer border-b border-white/[0.06] hover:border-lime/20 transition-colors">
       <span className="text-lime/35 text-xs font-bold tabular-nums w-7 shrink-0">{link.num}</span>
       <span ref={ref}
         className="font-black text-white/75 group-hover:text-white transition-colors"

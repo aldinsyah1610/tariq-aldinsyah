@@ -140,7 +140,7 @@ export default function WorkExperience() {
             style={{ background: 'var(--card)', border: '1px solid var(--border)' }}>
 
             {/* Company header */}
-            <div className="p-7 sm:p-10" style={{ borderBottom: '1px solid var(--border)' }}>
+            <div className="p-5 sm:p-10" style={{ borderBottom: '1px solid var(--border)' }}>
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                 <div>
                   <h3 className="text-white font-black tracking-tight leading-none mb-2"
@@ -177,7 +177,7 @@ export default function WorkExperience() {
                 <div key={s.label}
                   ref={el => statRefs.current[i] = el}
                   className={[
-                    'p-6 sm:p-8',
+                    'p-4 sm:p-8',
                     i === 0 ? 'border-r border-b sm:border-b-0 border-[#1e2a0a]' : '',
                     i === 1 ? 'border-b sm:border-b-0 sm:border-r border-[#1e2a0a]' : '',
                     i === 2 ? 'border-r border-[#1e2a0a]' : '',
@@ -197,7 +197,7 @@ export default function WorkExperience() {
             </div>
 
             {/* Featured projects */}
-            <div className="p-7 sm:p-10">
+            <div className="p-5 sm:p-10">
               <div className="grid sm:grid-cols-3 gap-4 mb-8">
                 {FEATURED.map((p, i) => (
                   <div key={p.name}
@@ -254,7 +254,7 @@ export default function WorkExperience() {
           </div>
 
           {/* ── PT Akurasi Konstruksi Indonesia ── */}
-          <div ref={akiRef} className="rounded-2xl p-7 sm:p-10"
+          <div ref={akiRef} className="rounded-2xl p-5 sm:p-10"
             style={{ background: 'var(--card)', border: '1px solid var(--border)' }}>
             <div className="grid sm:grid-cols-[2fr_3fr] gap-8 sm:gap-12">
 
