@@ -47,6 +47,7 @@ export default function Skills() {
           stagger: { amount: 0.9, from: 'start' },
           duration: 0.4, ease: 'back.out(2)',
           delay: 0.15,
+          immediateRender: false,
           scrollTrigger: lst,
         })
     }, sectionRef)
