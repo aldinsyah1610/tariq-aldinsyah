@@ -6,17 +6,16 @@ import { useTheme } from '../hooks/useTheme'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const VW     = 560
-const VH     = 520
-const CX     = 280
+const VIEW   = 520
+const CX     = 260
 const CY     = 260
-const R      = 145
-const LR     = 192   // label radius
+const R      = 148
+const LBL_R  = 196
 const LEVELS = [0.2, 0.4, 0.6, 0.8, 1.0]
 const N      = 6
 const ANGLES = Array.from({ length: N }, (_, i) => (i / N) * 2 * Math.PI - Math.PI / 2)
 
-// Clockwise from top: top, upper-right, lower-right, bottom, lower-left, upper-left
+// Clockwise from top
 const SKILLS = [
   { label: 'UX Research',      value: 82, desc: 'User interviews, usability tests & research synthesis' },
   { label: 'Visual Design',    value: 85, desc: 'Typography, colour, layout & visual hierarchy' },
@@ -31,6 +30,15 @@ function anchor(angle) {
   if (c > 0.3) return 'start'
   if (c < -0.3) return 'end'
   return 'middle'
+}
+
+// Offset label position slightly away from the chart edge
+function labelOffset(angle) {
+  const c = Math.cos(angle)
+  const s = Math.sin(angle)
+  const dx = Math.abs(c) < 0.3 ? 0 : (c > 0 ? 8 : -8)
+  const dy = Math.abs(s) < 0.3 ? 0 : (s > 0 ? 8 : -8)
+  return [dx, dy]
 }
 
 export default function SkillRadar() {
@@ -59,24 +67,27 @@ export default function SkillRadar() {
         gsap.from(chars, { y: '105%', stagger: 0.055, duration: 0.55, ease: 'back.out(2.5)', scrollTrigger: st })
       }
 
+      // Grid fade in
       if (gridRef.current)
-        gsap.fromTo(gridRef.current, { opacity: 0 }, { opacity: 1, duration: 0.7, ease: 'power2.out', scrollTrigger: st })
+        gsap.fromTo(gridRef.current,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.7, ease: 'power2.out', scrollTrigger: st })
 
+      // Polygon fade + scale from center via svgOrigin on the polygon itself
       if (polygonRef.current)
         gsap.fromTo(polygonRef.current,
-          { scale: 0 },
-          { scale: 1, svgOrigin: `${CX} ${CY}`, duration: 1.4, ease: 'power3.out', delay: 0.15, scrollTrigger: st })
+          { opacity: 0, scale: 0, svgOrigin: `${CX} ${CY}` },
+          { opacity: 1, scale: 1, svgOrigin: `${CX} ${CY}`, duration: 1.2, ease: 'power3.out', delay: 0.15, scrollTrigger: st })
 
+      // Dots — each <g> is pre-translated so scale from '50% 50%' works
       dotsRef.current.forEach((el, i) => {
         if (!el) return
-        const a = ANGLES[i]
-        const r = (SKILLS[i].value / 100) * R
         gsap.fromTo(el,
-          { scale: 0 },
-          { scale: 1, svgOrigin: `${(CX + r * Math.cos(a)).toFixed(2)} ${(CY + r * Math.sin(a)).toFixed(2)}`,
-            duration: 0.45, ease: 'back.out(2)', delay: 0.7 + i * 0.07, scrollTrigger: st })
+          { scale: 0, transformOrigin: '50% 50%' },
+          { scale: 1, transformOrigin: '50% 50%', duration: 0.45, ease: 'back.out(2)', delay: 0.7 + i * 0.07, scrollTrigger: st })
       })
 
+      // Skill cards
       const cards = cardsRef.current?.children
       if (cards?.length)
         gsap.fromTo(cards,
@@ -86,6 +97,7 @@ export default function SkillRadar() {
     return () => ctx.revert()
   }, [])
 
+  // Precompute data polygon vertices
   const pts = SKILLS.map((s, i) => {
     const a = ANGLES[i]
     const r = (s.value / 100) * R
@@ -111,7 +123,7 @@ export default function SkillRadar() {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-[1fr_500px] gap-10 lg:gap-16 items-center">
+        <div className="grid lg:grid-cols-[1fr_480px] gap-10 lg:gap-16 items-center">
 
           {/* Skill cards */}
           <div ref={cardsRef} className="grid sm:grid-cols-2 gap-4">
@@ -134,12 +146,13 @@ export default function SkillRadar() {
             ))}
           </div>
 
-          {/* Radar SVG */}
+          {/* Radar SVG — square viewBox prevents hexagon distortion */}
           <div className="flex items-center justify-center">
-            <svg viewBox={`0 0 ${VW} ${VH}`} width="100%" style={{ maxWidth: 500, overflow: 'visible' }}
+            <svg viewBox={`0 0 ${VIEW} ${VIEW}`} width="100%"
+              style={{ maxWidth: 480, display: 'block', overflow: 'visible' }}
               role="img" aria-label="Hexagonal competency radar chart">
 
-              {/* Grid */}
+              {/* Grid hexagons + axis lines */}
               <g ref={gridRef}>
                 {LEVELS.map((lv) => {
                   const hexPts = ANGLES.map(a =>
@@ -147,11 +160,10 @@ export default function SkillRadar() {
                   ).join(' ')
                   return (
                     <polygon key={lv} points={hexPts} fill="none"
-                      stroke={lr(lv === 1 ? 0.28 : 0.13)} strokeWidth="1" />
+                      stroke={lr(lv === 1 ? 0.3 : 0.13)} strokeWidth="1" />
                   )
                 })}
 
-                {/* Axis lines */}
                 {ANGLES.map((a, i) => (
                   <line key={i}
                     x1={CX} y1={CY}
@@ -160,7 +172,7 @@ export default function SkillRadar() {
                     stroke={lr(0.2)} strokeWidth="1" />
                 ))}
 
-                {/* Level ticks on vertical axis */}
+                {/* Percentage ticks on vertical upward axis */}
                 {LEVELS.map((lv) => (
                   <text key={lv}
                     x={(CX + 5).toFixed(2)}
@@ -180,22 +192,23 @@ export default function SkillRadar() {
                 strokeWidth="1.5"
                 strokeLinejoin="round" />
 
-              {/* Dots */}
+              {/* Dots — circles at cx=0,cy=0 so transform-origin 50% 50% = dot center */}
               {pts.map(([x, y], i) => (
-                <g key={i} ref={el => { dotsRef.current[i] = el }}>
-                  <circle cx={x.toFixed(2)} cy={y.toFixed(2)} r="8"
-                    fill="none" stroke={lr(0.35)} strokeWidth="1.5" />
-                  <circle cx={x.toFixed(2)} cy={y.toFixed(2)} r="3.5"
-                    fill={lr(1)} />
+                <g key={i}
+                  ref={el => { dotsRef.current[i] = el }}
+                  transform={`translate(${x.toFixed(2)},${y.toFixed(2)})`}>
+                  <circle r="8" fill="none" stroke={lr(0.35)} strokeWidth="1.5" />
+                  <circle r="3.5" fill={lr(1)} />
                 </g>
               ))}
 
               {/* Axis labels */}
               {SKILLS.map((s, i) => {
-                const a  = ANGLES[i]
-                const lx = (CX + LR * Math.cos(a)).toFixed(2)
-                const ly = (CY + LR * Math.sin(a)).toFixed(2)
-                const ta = anchor(a)
+                const a          = ANGLES[i]
+                const [odx, ody] = labelOffset(a)
+                const lx         = (CX + LBL_R * Math.cos(a) + odx).toFixed(2)
+                const ly         = (CY + LBL_R * Math.sin(a) + ody).toFixed(2)
+                const ta         = anchor(a)
                 return (
                   <g key={i} transform={`translate(${lx},${ly})`}>
                     <text y="-6" textAnchor={ta}
