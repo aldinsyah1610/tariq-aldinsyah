@@ -3,6 +3,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { Download } from 'lucide-react'
 import ImageWithSkeleton from './ImageWithSkeleton'
+import GradientBars from './GradientBars'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -96,7 +97,8 @@ export default function Hero() {
 
   return (
     <section ref={sectionRef} className="relative flex flex-col justify-center overflow-hidden bg-dark pt-16 sm:min-h-[90vh]">
-      <div className="absolute inset-0 grid-overlay opacity-60" />
+      <GradientBars />
+      <div className="absolute inset-0 grid-overlay opacity-15" />
 
       <span className="sparkle absolute top-24 left-[8%] text-lg select-none">+</span>
       <span className="sparkle absolute top-32 right-[8%] text-base select-none">+</span>
