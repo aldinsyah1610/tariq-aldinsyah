@@ -70,8 +70,10 @@ function ProjectRow({ project: p, index }) {
   const thumbRef = useRef(null)
   const navigate = useNavigate()
 
+  const limeText = () => document.documentElement.dataset.theme === 'light' ? '#5C8A00' : '#C0F53D'
+
   const onMouseEnter = () => {
-    gsap.to(rowRef.current, { backgroundColor: 'var(--medium)', borderLeftColor: '#C0F53D', duration: 0.2, ease: 'power2.out' })
+    gsap.to(rowRef.current, { backgroundColor: 'var(--medium)', borderLeftColor: limeText(), duration: 0.2, ease: 'power2.out' })
     gsap.to(thumbRef.current, { scale: 1.06, duration: 0.3, ease: 'power2.out' })
   }
 

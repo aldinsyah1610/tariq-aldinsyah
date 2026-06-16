@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useTheme } from '../hooks/useTheme'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -75,17 +76,20 @@ export default function Testimonials() {
     return () => ctx.revert()
   }, [])
 
+  const { theme } = useTheme()
+  const lime = (a) => theme === 'light' ? `rgba(92,138,0,${a})` : `rgba(192,245,61,${a})`
+
   const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches
 
   const cardHover = (t) => canHover ? {
     onMouseEnter: (e) => gsap.to(e.currentTarget, {
       y: -4,
-      boxShadow: t.featured ? '0 0 60px rgba(192,245,61,0.28)' : '0 0 30px rgba(192,245,61,0.12)',
+      boxShadow: t.featured ? `0 0 60px ${lime(0.28)}` : `0 0 30px ${lime(0.12)}`,
       duration: 0.25, ease: 'power2.out', overwrite: 'auto',
     }),
     onMouseLeave: (e) => gsap.to(e.currentTarget, {
       y: 0,
-      boxShadow: t.featured ? '0 0 40px rgba(192,245,61,0.18)' : 'none',
+      boxShadow: t.featured ? `0 0 40px ${lime(0.18)}` : 'none',
       duration: 0.4, ease: 'power2.out', overwrite: 'auto',
     }),
   } : {}
@@ -116,8 +120,8 @@ export default function Testimonials() {
               className="rounded-2xl p-6 sm:p-8 flex flex-col"
               style={{
                 background: 'var(--card)',
-                border: t.featured ? '1px solid rgba(192,245,61,0.35)' : '1px solid var(--border)',
-                boxShadow: t.featured ? '0 0 40px rgba(192,245,61,0.18)' : 'none',
+                border: t.featured ? `1px solid ${lime(0.35)}` : '1px solid var(--border)',
+                boxShadow: t.featured ? `0 0 40px ${lime(0.18)}` : 'none',
                 willChange: 'transform',
               }}
               {...cardHover(t)}
@@ -143,7 +147,7 @@ export default function Testimonials() {
                 ) : (
                   <div
                     className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 font-bold text-xs"
-                    style={{ background: '#C0F53D', color: '#080c02' }}
+                    style={{ background: 'var(--lime-text)', color: 'var(--bg)' }}
                   >
                     {getInitials(t.author)}
                   </div>
