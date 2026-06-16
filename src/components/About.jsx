@@ -1,9 +1,10 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, lazy, Suspense } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import ImageWithSkeleton from './ImageWithSkeleton'
-import AboutSankey from './AboutSankey'
 import { splitWords } from '../utils/splitText'
+
+const AboutSankey = lazy(() => import('./AboutSankey'))
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -123,7 +124,9 @@ export default function About() {
             </div>
 
             {/* Sankey infographic */}
-            <AboutSankey />
+            <Suspense fallback={<div className="rounded-2xl" style={{ background: 'var(--card)', border: '1px solid var(--border)', height: 300 }} />}>
+              <AboutSankey />
+            </Suspense>
           </div>
         </div>
       </div>

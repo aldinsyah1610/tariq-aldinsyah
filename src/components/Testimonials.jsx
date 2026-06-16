@@ -10,6 +10,7 @@ const TESTIMONIALS = [
     author: 'Ifan Ramadhan',
     role: 'Member Service',
     company: 'Kisel Group',
+    avatar: null,
     featured: false,
   },
   {
@@ -17,6 +18,7 @@ const TESTIMONIALS = [
     author: 'Dany Sentiana',
     role: 'Frontend Engineer',
     company: 'Kisel Group',
+    avatar: null,
     featured: false,
   },
   {
@@ -24,6 +26,7 @@ const TESTIMONIALS = [
     author: 'Dimas Erlangga Putera',
     role: 'IT Business Solution Supervisor',
     company: 'Kisel Group',
+    avatar: null,
     featured: true,
   },
 ]

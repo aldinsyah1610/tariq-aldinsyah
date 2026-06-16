@@ -64,6 +64,12 @@ const COLORS_LIGHT = {
   ui:       { node: 'rgba(58,88,0,0.07)',   stroke: 'rgba(58,88,0,0.30)',   link: 'rgba(58,88,0,0.13)',   txt: '#3A5800' },
 }
 
+const SANKEY_LEGEND = [
+  { cat: 'research', label: 'Research',    pct: '60%' },
+  { cat: 'ux',       label: 'UX Research', pct: '10%' },
+  { cat: 'ui',       label: 'UI Design',   pct: '30%' },
+]
+
 const makePath = sankeyLinkHorizontal()
 
 // Shared SVG content — animated=false for modal (fully visible)
@@ -238,6 +244,18 @@ export default function AboutSankey() {
           style={{ overflow: 'visible', fontFamily: "'Space Grotesk', sans-serif" }}>
           <SankeyContent nodes={nodes} links={links} animated={true} C={C} />
         </svg>
+
+        {/* Phase legend */}
+        <div className="flex flex-wrap gap-x-5 gap-y-1 mt-3 px-1">
+          {SANKEY_LEGEND.map(item => (
+            <div key={item.cat} className="flex items-center gap-1.5">
+              <span className="inline-block w-2 h-2 rounded-full" style={{ background: C[item.cat].txt, opacity: 0.8 }} />
+              <span style={{ fontSize: '0.65rem', color: 'var(--text-30)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                {item.label} · {item.pct}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* ── Modal Portal ──────────────────────────────────── */}

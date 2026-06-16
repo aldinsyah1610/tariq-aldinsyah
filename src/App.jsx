@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './index.css'
 import ScrollToTop from './components/ScrollToTop'
-import ProjectDetail from './pages/ProjectDetail'
+
+const ProjectDetail = lazy(() => import('./pages/ProjectDetail'))
 
 import Preloader from './components/Preloader'
 import Navbar from './components/Navbar'
@@ -62,7 +63,11 @@ function App() {
       {!preloaderDone && <Preloader onComplete={() => setPreloaderDone(true)} />}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/projects/:id" element={<ProjectDetail />} />
+        <Route path="/projects/:id" element={
+          <Suspense fallback={<div className="min-h-screen" style={{ background: 'var(--bg)' }} />}>
+            <ProjectDetail />
+          </Suspense>
+        } />
       </Routes>
     </BrowserRouter>
   )

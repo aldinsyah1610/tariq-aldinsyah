@@ -27,14 +27,15 @@ export const projects = [
     ],
     metrics: [
       {
-        val: '40%',
-        label: 'Dev Efficiency Improved',
-        context: '[isi: diukur dari perbandingan rata-rata sprint velocity tim engineering sebelum dan sesudah adopsi Rakit, periode Aug–Des 2024]',
+        val: '4',
+        label: 'Aplikasi HRIS dari satu modul Rakit',
+        // TODO: konfirmasi apakah PT Kinarya adalah grup Kisel atau entitas terpisah
+        context: 'Modul HRIS yang dibangun di Rakit dipakai ulang lintas organisasi tanpa membangun dari nol: Marissa (internal Kisel), iFMC (PT Kinarya Utama Teknik), Harmony (PT Kinarya Selaras Piranti), Kamila (PT Kinarya Alihidayah Mandiri).',
       },
       {
-        val: '3×',
-        label: 'Faster Multi-Product Dev',
-        context: '[isi: diukur dari ...]',
+        val: '1→N',
+        label: 'Develop sekali, dipakai lintas produk',
+        context: 'Modul Rakit Payment dipakai di seluruh aplikasi Kisel berfitur pembayaran; Rakit Koperasi dipakai ulang lintas produk koperasi.',
       },
       {
         val: '1st',
@@ -72,13 +73,42 @@ export const projects = [
     figmaEmbed: null, // paste Figma proto share URL: https://www.figma.com/proto/...
     ecosystem: {
       hub: { name: 'Rakit', sub: 'Modular Design System · Kisel Group 2024' },
-      nodes: [
-        { id: 'coopin',    name: 'CoopIn',              cat: 'product', desc: 'Cooperative platform' },
-        { id: 'bayaraja',  name: 'BayarAja',            cat: 'product', desc: 'Payment app' },
-        { id: 'canvasser', name: 'BayarAja\nCanvasser', cat: 'product', desc: 'Field sales app' },
-        { id: 'pos',       name: 'BayarAja\nPOS',       cat: 'product', desc: 'Point of sale' },
-        { id: 'marissa',   name: 'Marissa\nHRIS',       cat: 'product', desc: 'HR management' },
-        { id: 'ifmc',      name: 'iFMC',                cat: 'product', desc: 'Field operations' },
+      caption: 'Rakit menyediakan modul yang dapat dirakit lintas produk tanpa membangun dari nol.',
+      modules: [
+        {
+          id: 'hris',
+          name: 'HRIS',
+          cat: 'hris',
+          desc: 'HR & field ops',
+          apps: [
+            { id: 'marissa',  name: 'Marissa',  desc: 'Internal Kisel' },
+            // TODO: konfirmasi relasi PT Kinarya
+            { id: 'ifmc',     name: 'iFMC',     desc: 'PT Kinarya Utama Teknik' },
+            { id: 'harmony',  name: 'Harmony',  desc: 'PT Kinarya Selaras Piranti' },
+            { id: 'kamila',   name: 'Kamila',   desc: 'PT Kinarya Alihidayah Mandiri' },
+          ],
+        },
+        {
+          id: 'payment',
+          name: 'Payment',
+          cat: 'payment',
+          desc: 'Fintech & POS',
+          apps: [
+            { id: 'bayaraja',  name: 'BayarAja',   desc: 'Payment app' },
+            { id: 'canvasser', name: 'Canvasser',   desc: 'Field sales' },
+            { id: 'pos',       name: 'POS',          desc: 'Point of sale' },
+          ],
+        },
+        {
+          id: 'coop',
+          name: 'Koperasi',
+          cat: 'coop',
+          desc: 'Cooperative platform',
+          apps: [
+            { id: 'coopin', name: 'CoopIn',  desc: 'Cooperative ecosystem' },
+            { id: 'simusi', name: 'Simusi',  desc: 'E-Commerce koperasi' },
+          ],
+        },
       ],
     },
     heroImage: { src: '/rakit-4.jpg', bg: '#f5b800' },
