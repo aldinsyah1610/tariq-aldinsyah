@@ -131,15 +131,15 @@ export default function Hero() {
 
                 <span className="block overflow-hidden">
                   <span ref={line1Ref} className="block">
-                    <span className="text-white">I Design </span>
+                    <span className="text-white">Building Scalable </span>
                     <span ref={italicRef} className="font-serif italic font-semibold text-lime"
-                      style={{ fontSize: '0.9em', display: 'inline-block' }}>Ecosystems,</span>
+                      style={{ fontSize: '0.9em', display: 'inline-block' }}>Ecosystems</span>
                   </span>
                 </span>
 
                 <span className="block overflow-hidden">
                   <span ref={line2Ref} className="block">
-                    <span className="text-white">Not Just Screens.</span>
+                    <span className="text-white">&amp; User-Centered Products.</span>
                   </span>
                 </span>
 
