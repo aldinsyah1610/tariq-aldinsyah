@@ -11,6 +11,16 @@ export default function Preloader({ onComplete }) {
     document.body.style.overflow = 'hidden'
     if (window.__lenis) window.__lenis.stop()
 
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reduced) {
+      document.body.style.overflow = ''
+      if (window.__lenis) window.__lenis.start()
+      window.__preloaderDone = true
+      window.dispatchEvent(new CustomEvent('preloader-done'))
+      onComplete?.()
+      return
+    }
+
     const ctx = gsap.context(() => {
       const obj = { val: 0 }
 

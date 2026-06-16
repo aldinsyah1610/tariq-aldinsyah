@@ -16,6 +16,8 @@ export default function Contact() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      if (reduced) return
       const st = { trigger: sectionRef.current, start: 'top 85%' }
 
       // Link icons bounce in

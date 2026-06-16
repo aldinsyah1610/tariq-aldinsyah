@@ -11,6 +11,8 @@ export default function Marquee({ reverse = false, speed = 22 }) {
   const trackRef = useRef(null)
 
   useEffect(() => {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reduced) return
     const ctx = gsap.context(() => {
       gsap.to(trackRef.current, {
         xPercent: reverse ? 50 : -50,

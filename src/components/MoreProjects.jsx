@@ -26,6 +26,8 @@ export default function MoreProjects() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      if (reduced) return
       const st  = { trigger: sectionRef.current, start: 'top 80%' }
       const gst = { trigger: gridRef.current, start: 'top 85%' }
       const h2  = headerRef.current?.querySelector('h2')

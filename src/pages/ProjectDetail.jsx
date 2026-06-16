@@ -27,6 +27,8 @@ export default function ProjectDetail() {
   useEffect(() => {
     if (!project) return
     const ctx = gsap.context(() => {
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      if (reduced) return
       gsap.fromTo(heroRef.current, { opacity: 0, y: 30 },
         { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.1 })
 

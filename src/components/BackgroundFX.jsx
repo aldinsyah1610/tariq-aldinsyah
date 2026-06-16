@@ -32,14 +32,21 @@ export default function BackgroundFX() {
   const ring2Ref = useRef(null)
   const ring3Ref = useRef(null)
 
+  const isFine = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+
   useEffect(() => {
+    if (!isFine) return
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reduced) return
     const ctx = gsap.context(() => {
       gsap.to(ring1Ref.current, { rotation: 360,  duration: 160, repeat: -1, ease: 'none', transformOrigin: '50% 50%' })
       gsap.to(ring2Ref.current, { rotation: -360, duration: 100, repeat: -1, ease: 'none', transformOrigin: '50% 50%' })
       gsap.to(ring3Ref.current, { rotation: 360,  duration: 200, repeat: -1, ease: 'none', transformOrigin: '50% 50%' })
     })
     return () => ctx.revert()
-  }, [])
+  }, [isFine])
+
+  if (!isFine) return null
 
   return (
     <div className="pointer-events-none select-none">

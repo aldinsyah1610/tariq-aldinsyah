@@ -62,6 +62,12 @@ export default function WorksWheel() {
     // Initialise cards at angle=0
     updateCards(0)
 
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reduced) {
+      if (stickyRef.current) stickyRef.current.style.opacity = '1'
+      return
+    }
+
     // ScrollTrigger drives the orbit angle via a proxy object
     const proxy = { angle: 0 }
     const tl = gsap.timeline({

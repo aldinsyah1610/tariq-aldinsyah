@@ -62,6 +62,8 @@ export default function DesignApproach() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      if (reduced) return
       const hST = { trigger: sectionRef.current, start: 'top 78%' }
       const bST = { trigger: barRef.current,     start: 'top 80%' }
 

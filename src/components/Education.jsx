@@ -28,6 +28,8 @@ export default function Education() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      if (reduced) return
       const hst = { trigger: sectionRef.current, start: 'top 80%' }
       const h2  = headerRef.current?.querySelector('h2')
       if (h2) {

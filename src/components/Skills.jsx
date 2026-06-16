@@ -20,6 +20,8 @@ export default function Skills() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      if (reduced) return
       const st  = { trigger: sectionRef.current, start: 'top 78%' }
       const lst = { trigger: listRef.current, start: 'top 82%' }
       const h2  = headerRef.current?.querySelector('h2')

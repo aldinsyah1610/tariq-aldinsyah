@@ -69,6 +69,8 @@ export default function FeaturedProjects() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      if (reduced) return
       const st = { trigger: sectionRef.current, start: 'top 80%' }
       const h2 = headerRef.current?.querySelector('h2')
       if (h2) {
@@ -117,6 +119,8 @@ function ProjectCard({ project: p }) {
   useEffect(() => {
     borderRef.current = getComputedStyle(document.documentElement).getPropertyValue('--border').trim()
     const ctx = gsap.context(() => {
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      if (reduced) return
       gsap.fromTo(cardRef.current, { opacity: 0, y: 48 },
         { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
           scrollTrigger: { trigger: cardRef.current, start: 'top 84%' } })
