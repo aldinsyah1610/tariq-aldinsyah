@@ -9,6 +9,7 @@ import Preloader from './components/Preloader'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
+import ProcessBreakdown from './components/ProcessBreakdown'
 import DesignApproach from './components/DesignApproach'
 import FeaturedProjects from './components/FeaturedProjects'
 import MoreProjects from './components/MoreProjects'
@@ -38,6 +39,7 @@ function Home() {
         <Hero />
         <WorksReel />
         <About />
+        <ProcessBreakdown />
         <FeaturedProjects />
         <Testimonials />
         <Breather />

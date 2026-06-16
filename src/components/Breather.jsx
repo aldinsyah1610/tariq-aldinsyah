@@ -5,7 +5,7 @@ import CountUp from './CountUp'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const STATS = [['5+', 'Years Exp.'], ['20+', 'Products Built'], ['3', 'Platforms']]
+const STATS = [['2+', 'Years Exp.'], ['20+', 'Products Built'], ['3', 'Platforms']]
 
 export default function Breather() {
   const sectionRef = useRef(null)

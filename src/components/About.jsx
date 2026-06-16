@@ -1,10 +1,9 @@
-import { useEffect, useRef, lazy, Suspense } from 'react'
+import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import ImageWithSkeleton from './ImageWithSkeleton'
 import { splitWords } from '../utils/splitText'
-
-const AboutSankey = lazy(() => import('./AboutSankey'))
+import DomainBreakdown from './DomainBreakdown'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -77,7 +76,7 @@ export default function About() {
 
         {/* Section meta row — like Adspace "Client / Services / Year" */}
         <div className="flex flex-wrap gap-10 mb-16 pb-8 border-b border-[#1e2a0a] text-sm">
-          <div><p className="text-white/30 uppercase text-xs tracking-widest mb-1">About the Project</p></div>
+          <div><p className="text-white/30 uppercase text-xs tracking-widest mb-1">About Me</p></div>
           <div className="ml-auto max-w-lg">
             <p className="text-white/40 text-sm leading-relaxed">
               I'm a UI/UX Product Designer with 2+ years of experience designing digital platforms
@@ -110,8 +109,8 @@ export default function About() {
             </div>
           </div>
 
-          {/* Right — bio + stats */}
-          <div ref={rightRef} className="space-y-8">
+          {/* Right — bio + domain breakdown */}
+          <div ref={rightRef} className="flex flex-col gap-8">
             {/* Bio card */}
             <div className="rounded-2xl p-7"
               style={{ background: 'var(--card)', border: '1px solid var(--border)' }}>
@@ -123,10 +122,8 @@ export default function About() {
               </p>
             </div>
 
-            {/* Sankey infographic */}
-            <Suspense fallback={<div className="rounded-2xl" style={{ background: 'var(--card)', border: '1px solid var(--border)', height: 300 }} />}>
-              <AboutSankey />
-            </Suspense>
+            {/* Domain breakdown — flex-1 stretches to match photo column height */}
+            <DomainBreakdown />
           </div>
         </div>
       </div>
