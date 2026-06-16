@@ -69,7 +69,6 @@ export default function About() {
 
   return (
     <section id="about" ref={sectionRef} className="relative py-24 bg-dark overflow-hidden">
-      <div className="blob blob-lime w-[500px] h-[500px] top-[-100px] right-[-100px] opacity-30" />
       <div className="absolute inset-0 grid-overlay opacity-40" />
 
       <div className="relative max-w-7xl mx-auto px-5 sm:px-8">
