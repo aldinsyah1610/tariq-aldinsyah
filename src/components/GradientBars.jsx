@@ -2,8 +2,8 @@ function calcH(index, total, min, max) {
   const center = (total - 1) / 2
   const dist = Math.abs(index - center)
   const maxDist = center || 1
-  // Peak at center, taper to edges.
-  // FLIP height shape: change to (dist / maxDist) for tall-at-edges instead.
+  // Peak at center (tallest), taper to edges.
+  // FLIP shape: change to (dist / maxDist) for tall-at-edges instead.
   const pct = 1 - dist / maxDist
   return min + pct * (max - min)
 }
@@ -31,15 +31,13 @@ export default function GradientBars({
       <div
         aria-hidden="true"
         style={{
-          // Explicit bottom-anchored container — only as tall as the tallest bar.
-          // This guarantees bars grow from the floor of Hero upward, no ambiguity.
           position: 'absolute',
           bottom: 0,
           left: 0,
           right: 0,
           height: maxH,
           display: 'flex',
-          // FLIP bar anchor: change 'flex-end' → 'flex-start' to anchor at TOP instead.
+          // FLIP anchor: 'flex-end' = bars at floor. Change to 'flex-start' for top anchor.
           alignItems: 'flex-end',
           gap: '4px',
           padding: '0 4px',
@@ -56,11 +54,14 @@ export default function GradientBars({
               style={{
                 flex: 1,
                 height: h,
-                // LIME at base (Hero floor), fades to var(--bg) going up — matches Hero dark bg.
-                // FLIP gradient direction: change 'to top' → 'to bottom' for lime-at-peak.
-                background: 'linear-gradient(to top, var(--lime-text) 0%, var(--bg) 100%)',
-                // scaleY animation squishes from the bottom (floor stays fixed).
-                // FLIP animation origin: change 'bottom center' → 'top center'.
+                // Solid lime — mask controls the fade, avoiding color-interpolation issues.
+                background: 'var(--lime-text)',
+                // Lime SOLID at bottom (black = fully visible), fades to TRANSPARENT at top.
+                // FLIP direction: swap 'to top' → 'to bottom' in both mask lines below.
+                maskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
+                WebkitMaskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
+                // Animation squishes from the floor up — lime stays at floor.
+                // FLIP origin: 'bottom center' → 'top center' if you change alignItems.
                 transformOrigin: 'bottom center',
                 willChange: reduced ? 'auto' : 'transform',
                 animation: reduced
