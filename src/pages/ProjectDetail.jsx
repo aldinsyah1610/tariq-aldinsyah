@@ -323,24 +323,30 @@ export default function ProjectDetail() {
         {/* Impact */}
         <div className="pd-section">
           <SectionLabel>Impact & Results</SectionLabel>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-            {project.metrics.map((m, i) => (
-              <div key={i} className="rounded-2xl p-6 text-center flex flex-col items-center"
-                style={{ background: 'var(--card)', border: '1px solid var(--border)' }}>
-                <MetricMini val={m.val} />
-                <p className="text-lime font-black text-2xl leading-none mb-2">
-                  <CountUp value={m.val} />
-                </p>
-                <p className="text-xs leading-tight" style={{ color: 'var(--text-30)' }}>{m.label}</p>
-                {m.context && !m.context.startsWith('[isi:') && (
-                  <p className="text-[10px] leading-relaxed mt-3 italic"
-                    style={{ color: 'var(--text-30)', borderTop: '1px solid var(--border)', paddingTop: '0.5rem', width: '100%' }}>
-                    {m.context}
+          {project.metrics.length === 0 && project.outcome ? (
+            <p className="mt-6 text-sm leading-relaxed" style={{ color: 'var(--text-40)' }}>
+              {project.outcome}
+            </p>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+              {project.metrics.map((m, i) => (
+                <div key={i} className="rounded-2xl p-6 text-center flex flex-col items-center"
+                  style={{ background: 'var(--card)', border: '1px solid var(--border)' }}>
+                  <MetricMini val={m.val} />
+                  <p className="text-lime font-black text-2xl leading-none mb-2">
+                    <CountUp value={m.val} />
                   </p>
-                )}
-              </div>
-            ))}
-          </div>
+                  <p className="text-xs leading-tight" style={{ color: 'var(--text-30)' }}>{m.label}</p>
+                  {m.context && !m.context.startsWith('[isi:') && (
+                    <p className="text-[10px] leading-relaxed mt-3 italic"
+                      style={{ color: 'var(--text-30)', borderTop: '1px solid var(--border)', paddingTop: '0.5rem', width: '100%' }}>
+                      {m.context}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Next Project */}

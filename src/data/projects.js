@@ -155,11 +155,6 @@ export const projects = [
         label: 'Platforms (Web + Mobile)',
         context: 'Platform web (admin-facing) dan aplikasi mobile (member-facing) yang masing-masing telah di-deploy ke production.',
       },
-      {
-        val: '↑',
-        label: 'Operational Accessibility',
-        context: '[isi: diukur dari ...]',
-      },
     ],
     processArtifacts: [
       {
@@ -228,6 +223,7 @@ export const projects = [
     ],
     metrics: [
       {
+        // TODO: konfirmasi angka dari MAU analytics; isi context atau hapus.
         val: '+20%',
         label: 'Active Users in 3 Months',
         context: '[isi: diukur dari perbandingan Monthly Active User (MAU) 3 bulan setelah launch vs 3 bulan sebelum launch, dari data analytics backend Kisel]',
@@ -241,11 +237,6 @@ export const projects = [
         val: '12',
         label: 'Users Tested Pre-Launch',
         context: 'Sesi usability testing moderated dengan 12 anggota koperasi representatif, dilakukan 1 minggu sebelum production release.',
-      },
-      {
-        val: '↑',
-        label: 'New Ecosystem Features',
-        context: '[isi: diukur dari ...]',
       },
     ],
     beforeAfter: {
@@ -315,19 +306,9 @@ export const projects = [
     ],
     metrics: [
       {
-        val: '↓',
-        label: 'Transaction Drop-off Rate',
-        context: '[isi: diukur dari funnel analytics sebelum dan sesudah redesign, perbandingan drop-off pada step konfirmasi pembayaran]',
-      },
-      {
         val: '3',
         label: 'Payment Steps (from 6)',
         context: 'Dihitung dari jumlah screen yang dilalui user untuk menyelesaikan 1 transaksi pembayaran — 6 langkah pada flow lama vs 3 langkah pada redesign, berdasarkan task flow mapping.',
-      },
-      {
-        val: '↑',
-        label: 'User Satisfaction Score',
-        context: '[isi: diukur dari ...]',
       },
     ],
     tags: ['UI Redesign', 'UX Flow', 'System Design'],
@@ -367,16 +348,6 @@ export const projects = [
       { title: 'Performance Dashboard', desc: 'Real-time tracking of daily targets, completed visits, and conversion rates visible to both canvassers and managers.' },
     ],
     metrics: [
-      {
-        val: '↑',
-        label: 'Field Productivity',
-        context: '[isi: diukur dari ...]',
-      },
-      {
-        val: '↓',
-        label: 'Reporting Time',
-        context: '[isi: diukur dari perbandingan waktu yang dihabiskan canvasser untuk laporan harian sebelum (manual) vs sesudah implementasi app]',
-      },
       {
         val: '100%',
         label: 'Digital Visit Logging',
@@ -418,23 +389,8 @@ export const projects = [
       { title: 'Sales Reports', desc: 'Daily and monthly sales summaries with clear visual charts giving owners business insights at a glance.' },
       { title: 'CoopIn Integration', desc: 'Synced with CoopIn ecosystem for cooperative member pricing, discounts, and centralized reporting.' },
     ],
-    metrics: [
-      {
-        val: '↑',
-        label: 'Transaction Accuracy',
-        context: '[isi: diukur dari ...]',
-      },
-      {
-        val: '↓',
-        label: 'Checkout Time',
-        context: '[isi: diukur dari perbandingan rata-rata waktu transaksi manual vs menggunakan app, dari observasi langsung saat prototype testing]',
-      },
-      {
-        val: '↑',
-        label: 'MSME Digital Adoption',
-        context: '[isi: diukur dari ...]',
-      },
-    ],
+    metrics: [],
+    outcome: 'Designed a lightweight mobile POS with single-tap transactions, inventory management, and daily sales reports — built specifically for MSME users with low digital literacy.',
     tags: ['UI Design', 'System Design', 'UX Strategy'],
     gallery: [
       { src: '/more-pos.jpg', alt: 'BayarAja POS Interface', bg: '#C8D8C8', fit: 'contain' },
@@ -466,23 +422,8 @@ export const projects = [
       { title: 'Leave Request System', desc: 'Streamlined leave application with automated approval routing and real-time status tracking for employees.' },
       { title: 'Employee Self-Service', desc: 'Employees can access payslips, contracts, training records, and benefits information without contacting HR.' },
     ],
-    metrics: [
-      {
-        val: '↑',
-        label: 'Employee Engagement',
-        context: '[isi: diukur dari ...]',
-      },
-      {
-        val: '↑',
-        label: 'Attendance Consistency',
-        context: '[isi: diukur dari perbandingan persentase kehadiran tepat waktu sebelum dan sesudah fitur gamifikasi aktif, dari data HR]',
-      },
-      {
-        val: '↓',
-        label: 'HR Manual Workload',
-        context: '[isi: diukur dari ...]',
-      },
-    ],
+    metrics: [],
+    outcome: 'Redesigned the HR system with simplified workflows, attendance gamification (points and streaks), and an internal forum — replacing a fragmented, low-adoption interface.',
     tags: ['UI Redesign', 'UX Optimization', 'System Design'],
     bento: '"g3 g3 g3 g3 g3 g3 g3 g3 g3 g3 g3 g3" "g1 g1 g1 g1 g1 g1 g1 g1 g1 g7 g7 g7" "g6 g6 g6 g6 g2 g2 g2 g2 g2 g2 g2 g2" "g4 g4 g4 g4 g4 g4 g5 g5 g5 g5 g5 g5"',
     gallery: [
@@ -522,16 +463,6 @@ export const projects = [
       { title: 'Operations Dashboard', desc: 'Real-time visibility into field team status, task progress, and operational KPIs for supervisors.' },
     ],
     metrics: [
-      {
-        val: '↓',
-        label: 'System Fragmentation',
-        context: '[isi: diukur dari ...]',
-      },
-      {
-        val: '↑',
-        label: 'Field Team Visibility',
-        context: '[isi: diukur dari ...]',
-      },
       {
         val: '1',
         label: 'Unified Platform',
@@ -574,16 +505,7 @@ export const projects = [
     ],
     metrics: [
       {
-        val: '↓',
-        label: 'Average Resolution Time',
-        context: '[isi: diukur dari perbandingan rata-rata waktu resolusi tiket sebelum (email/telepon) vs sesudah sistem helpdesk, dari log sistem]',
-      },
-      {
-        val: '↑',
-        label: 'Request Visibility',
-        context: '[isi: diukur dari ...]',
-      },
-      {
+        // TODO: konfirmasi dari log sistem; isi context atau hapus.
         val: '0',
         label: 'Lost Tickets',
         context: '[isi: selama periode pilot dengan 1 subsidiary, tidak ada tiket yang hilang — diverifikasi dari log sistem vs laporan manual sebelumnya]',
@@ -623,23 +545,8 @@ export const projects = [
       { title: 'Diagnosis Support', desc: 'Symptom-based reference system guiding nurses to accurate ICD-based documentation for each patient.' },
       { title: 'Ward Dashboard', desc: 'Real-time ward overview showing patient status, pending documentation, and current care priorities.' },
     ],
-    metrics: [
-      {
-        val: '↑',
-        label: 'Documentation Accuracy',
-        context: '[isi: diukur dari ...]',
-      },
-      {
-        val: '↓',
-        label: 'Record Retrieval Time',
-        context: '[isi: diukur dari perbandingan waktu rata-rata perawat menemukan data pasien sebelum (cari di kertas) vs sesudah (digital search)]',
-      },
-      {
-        val: '↑',
-        label: 'Protocol Consistency',
-        context: '[isi: diukur dari ...]',
-      },
-    ],
+    metrics: [],
+    outcome: 'Designed a structured digital platform that standardizes nursing care workflows and replaces paper-based patient documentation with instant digital access.',
     tags: ['UI Design', 'UX Strategy', 'Platform Design'],
     bento: '"g1 g1 g1 g1 g1 g1 g1 g1 g1 g1 g1 g1" "g2 g2 g2 g2 g2 g2 g3 g3 g3 g3 g3 g3"',
     gallery: [
@@ -674,23 +581,8 @@ export const projects = [
       { title: 'Inventory Management', desc: 'Real-time stock levels, category organization, and automatic low-stock alerts for warehouse managers.' },
       { title: 'Delivery Tracking', desc: 'Order status visibility from processing through dispatch to final delivery confirmation for all parties.' },
     ],
-    metrics: [
-      {
-        val: '↓',
-        label: 'Fulfillment Delays',
-        context: '[isi: diukur dari ...]',
-      },
-      {
-        val: '↑',
-        label: 'Order Visibility',
-        context: '[isi: diukur dari ...]',
-      },
-      {
-        val: '↓',
-        label: 'Inventory Mismatch',
-        context: '[isi: diukur dari perbandingan selisih antara stok sistem vs stok fisik sebelum dan sesudah OMS diterapkan]',
-      },
-    ],
+    metrics: [],
+    outcome: 'Designed an OMS that streamlines order submission, warehouse processing, and delivery tracking — replacing spreadsheet-based coordination with full chain-of-custody visibility.',
     tags: ['Product Design', 'UX Strategy', 'UI Design'],
     bento: '"g1 g1 g1 g1 g1 g1 g1 g1 g1 g1 g1 g1" "g2 g2 g2 g2 g2 g2 g3 g3 g3 g3 g3 g3"',
     gallery: [
