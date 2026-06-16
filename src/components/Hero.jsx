@@ -125,7 +125,7 @@ export default function Hero() {
           <div>
             <div className="mb-6 lg:mb-10">
               <h1 className="font-sans font-black leading-[1.0] tracking-tight"
-                style={{ fontSize: 'clamp(2.5rem, 5.5vw, 5.8rem)' }}>
+                style={{ fontSize: 'clamp(2rem, 3.5vw, 3.8rem)' }}>
 
                 <span className="block overflow-hidden">
                   <span ref={line1Ref} className="block">
@@ -174,12 +174,12 @@ export default function Hero() {
 
           <div ref={phoneWrapRef} className="flex items-center justify-center overflow-hidden"
             style={{ alignSelf: 'stretch' }}>
-            <div ref={phoneRef} className="w-full relative" style={{ maxHeight: '480px' }}>
+            <div ref={phoneRef} className="w-full h-full relative">
               <ImageWithSkeleton
                 src="/phone-mockup.jpg"
                 alt="MyKisel app interface"
-                imgClassName="w-full object-contain object-top"
-                style={{ borderRadius: '20px', maxHeight: '480px' }}
+                imgClassName="w-full h-full object-contain object-center"
+                style={{ borderRadius: '20px' }}
               />
             </div>
           </div>
