@@ -43,7 +43,9 @@ function labelOffset(angle) {
 
 export default function SkillRadar() {
   const { theme } = useTheme()
-  const lr = (a) => theme === 'light' ? `rgba(92,138,0,${a})` : `rgba(192,245,61,${a})`
+  const lr        = (a) => theme === 'light' ? `rgba(92,138,0,${a})` : `rgba(192,245,61,${a})`
+  const labelFill = theme === 'light' ? 'rgba(8,12,2,0.80)' : 'rgba(255,255,255,0.82)'
+  const tickFill  = theme === 'light' ? 'rgba(8,12,2,0.35)' : lr(0.45)
 
   const sectionRef = useRef(null)
   const headerRef  = useRef(null)
@@ -177,7 +179,7 @@ export default function SkillRadar() {
                   <text key={lv}
                     x={(CX + 5).toFixed(2)}
                     y={(CY - lv * R - 3).toFixed(2)}
-                    fill={lr(0.45)} fontSize="9"
+                    fill={tickFill} fontSize="10"
                     fontFamily="'Space Grotesk', sans-serif">
                     {Math.round(lv * 100)}%
                   </text>
@@ -211,13 +213,13 @@ export default function SkillRadar() {
                 const ta         = anchor(a)
                 return (
                   <g key={i} transform={`translate(${lx},${ly})`}>
-                    <text y="-6" textAnchor={ta}
-                      fill="white" fillOpacity="0.82" fontSize="11" fontWeight="700"
+                    <text y="-7" textAnchor={ta}
+                      fill={labelFill} fontSize="13" fontWeight="700"
                       fontFamily="'Space Grotesk', sans-serif">
                       {s.label}
                     </text>
-                    <text y="8" textAnchor={ta}
-                      fill={lr(0.85)} fontSize="9.5"
+                    <text y="9" textAnchor={ta}
+                      fill={lr(0.9)} fontSize="11"
                       fontFamily="'Space Grotesk', sans-serif">
                       {s.value}%
                     </text>
