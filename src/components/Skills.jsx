@@ -120,13 +120,13 @@ export default function Skills() {
                       </div>
                       {/* Proficiency bar */}
                       <div className="h-[3px] rounded-full overflow-hidden mb-1.5"
-                        style={{ background: 'rgba(255,255,255,0.06)' }}>
+                        style={{ background: 'var(--text-10)' }}>
                         <div
                           ref={el => { barRefs.current[i] = el }}
                           className="h-full rounded-full"
                           style={{
                             width: `${g.proficiency}%`,
-                            background: 'linear-gradient(to right, var(--viz-1), rgba(192,245,61,0.55))',
+                            background: 'linear-gradient(to right, var(--viz-1), var(--lime-muted))',
                           }}
                         />
                       </div>

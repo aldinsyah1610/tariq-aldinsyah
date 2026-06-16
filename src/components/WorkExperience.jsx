@@ -235,7 +235,7 @@ export default function WorkExperience() {
 
             {/* Featured projects */}
             <div className="p-5 sm:p-10">
-              <div className="grid sm:grid-cols-3 gap-4 mb-8">
+              <div className="grid md:grid-cols-3 gap-4 mb-8">
                 {FEATURED.map((p, i) => (
                   <div key={p.name}
                     ref={el => cardRefs.current[i] = el}
@@ -318,7 +318,7 @@ export default function WorkExperience() {
                   <span style={{ color: 'var(--text-30)' }}>(MLBP)</span>
                   {' '}— led industrial design of a portable power unit to replace traditional generators in telecom infrastructure maintenance.
                 </p>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   {AKI_CARDS.map(({ Icon, label, sub }) => (
                     <div key={label} className="rounded-xl p-4"
                       style={{ background: 'var(--medium)', border: '1px solid var(--border)' }}>

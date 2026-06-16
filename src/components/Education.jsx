@@ -127,7 +127,7 @@ export default function Education() {
           <div ref={eduRef} className="flex-1 divide-y" style={{ borderColor: 'var(--border)' }}>
             {education.map((e) => (
               <div key={e.degree}
-                className="py-7 grid sm:grid-cols-[200px_1fr] gap-3 sm:gap-8">
+                className="py-7 grid md:grid-cols-[180px_1fr] gap-3 md:gap-8">
                 <div>
                   <p className="label-tag">{e.period}</p>
                   <p className="text-xs font-medium mt-2" style={{ color: 'var(--lime-text)', opacity: 0.75 }}>
