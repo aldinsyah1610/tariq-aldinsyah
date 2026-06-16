@@ -69,6 +69,7 @@ export const projects = [
       { src: '/rakit-1.jpg', alt: 'Rakit System Overview', bg: '#1a1a1a', fit: 'cover' },
       { src: '/rakit-5.jpg', alt: 'Rakit Detail', bg: '#f0f0f0', fit: 'contain' },
     ],
+    figmaEmbed: null, // paste Figma proto share URL: https://www.figma.com/proto/...
     heroImage: { src: '/rakit-4.jpg', bg: '#f5b800' },
   },
   {
@@ -144,6 +145,7 @@ export const projects = [
       { src: '/coopin-g4.jpg', area: 'g4', alt: 'CoopIn Web & Mobile',          bg: '#AB000E', ratio: '2612/1120', bentoRatio: '9/4' },
       { src: '/coopin-g6.jpg', area: 'g6', alt: 'CoopIn Design System',         bg: '#AB000E', ratio: '2432/1120', bentoRatio: '9/4' },
     ],
+    figmaEmbed: null, // paste Figma proto share URL: https://www.figma.com/proto/...
     heroImage: { src: '/coopin-g1.jpg', bg: '#AB000E' },
   },
   {
@@ -232,6 +234,7 @@ export const projects = [
       { src: '/mykisel-g4.jpg', area: 'g4', alt: 'MyKisel Feature Screens',       bg: '#1A4A78', ratio: '2612/1120', bentoRatio: '9/4' },
       { src: '/mykisel-g6.jpg', area: 'g6', alt: 'MyKisel Design System',         bg: '#1A4A78', ratio: '2432/1120', bentoRatio: '9/4' },
     ],
+    figmaEmbed: null, // paste Figma proto share URL: https://www.figma.com/proto/...
     heroImage: { src: '/mykisel-g1.jpg', bg: '#1A4A78' },
   },
   {

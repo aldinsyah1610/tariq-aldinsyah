@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -295,6 +295,16 @@ export default function ProjectDetail() {
           </div>
         )}
 
+        {/* Figma Prototype */}
+        {project.figmaEmbed && (
+          <div className="pd-section">
+            <SectionLabel>Interactive Prototype</SectionLabel>
+            <div className="mt-6">
+              <FigmaEmbed url={project.figmaEmbed} title={project.name} />
+            </div>
+          </div>
+        )}
+
         {/* Impact */}
         <div className="pd-section">
           <SectionLabel>Impact & Results</SectionLabel>
@@ -388,6 +398,52 @@ function InfoCard({ icon, label, value }) {
         <span className="label-tag" style={{ fontSize: '0.6rem' }}>{label}</span>
       </div>
       <p className="text-sm font-medium" style={{ color: 'var(--text)' }}>{value}</p>
+    </div>
+  )
+}
+
+function FigmaEmbed({ url, title }) {
+  const [loaded, setLoaded] = useState(false)
+  const embedSrc = `https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(url)}`
+
+  return (
+    <div className="rounded-2xl overflow-hidden"
+      style={{ background: 'var(--card)', border: '1px solid var(--border)' }}>
+      {/* 16:9 responsive container */}
+      <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
+        {/* Skeleton shown while iframe loads */}
+        {!loaded && (
+          <div className="absolute inset-0 flex items-center justify-center"
+            style={{ background: 'var(--medium)' }}>
+            <div className="flex flex-col items-center gap-3">
+              <div className="w-8 h-8 rounded-full border-2 animate-spin"
+                style={{ borderColor: 'var(--border)', borderTopColor: 'var(--lime-text)' }} />
+              <p className="text-xs" style={{ color: 'var(--text-30)' }}>Loading prototype…</p>
+            </div>
+          </div>
+        )}
+        <iframe
+          src={embedSrc}
+          title={`${title} — Interactive Prototype`}
+          className="absolute inset-0 w-full h-full"
+          allow="fullscreen"
+          loading="lazy"
+          style={{ opacity: loaded ? 1 : 0, transition: 'opacity 0.3s ease' }}
+          onLoad={() => setLoaded(true)}
+        />
+      </div>
+      {/* Footer bar */}
+      <div className="px-5 py-3 flex items-center justify-between"
+        style={{ borderTop: '1px solid var(--border)' }}>
+        <p className="text-xs" style={{ color: 'var(--text-30)' }}>
+          Interactive Figma prototype
+        </p>
+        <a href={url} target="_blank" rel="noopener noreferrer"
+          className="text-xs font-semibold transition-opacity hover:opacity-70"
+          style={{ color: 'var(--lime-text)' }}>
+          Open in Figma ↗
+        </a>
+      </div>
     </div>
   )
 }
