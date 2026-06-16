@@ -5,6 +5,7 @@ import { ArrowUpRight } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import ImageWithSkeleton from './ImageWithSkeleton'
 import { splitWords, splitChars } from '../utils/splitText'
+import { useTheme } from '../hooks/useTheme'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -106,6 +107,7 @@ export default function FeaturedProjects() {
 }
 
 function ProjectCard({ project: p }) {
+  const { theme }  = useTheme()
   const cardRef    = useRef(null)
   const metricRefs = useRef([])
   const borderRef  = useRef(null)
@@ -117,8 +119,10 @@ function ProjectCard({ project: p }) {
       ? 'rgba(92,138,0,0.55)'
       : 'rgba(192,245,61,0.3)'
 
+  const limeBorder = theme === 'light' ? 'rgba(92,138,0,0.18)' : 'rgba(192,245,61,0.18)'
+  borderRef.current = limeBorder
+
   useEffect(() => {
-    borderRef.current = getComputedStyle(document.documentElement).getPropertyValue('--border').trim()
     const ctx = gsap.context(() => {
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
       if (reduced) return
@@ -189,7 +193,7 @@ function ProjectCard({ project: p }) {
       onMouseLeave={onMouseLeave}
       onMouseMove={onMouseMove}
       className="rounded-2xl overflow-hidden transition-all group"
-      style={{ background: 'var(--card)', border: '1px solid var(--border)' }}>
+      style={{ background: 'var(--card)', border: `1px solid ${limeBorder}` }}>
 
       <div className="p-8 lg:p-12">
         <div className="grid lg:grid-cols-2 gap-10">
