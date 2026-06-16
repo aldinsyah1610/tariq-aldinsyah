@@ -26,6 +26,7 @@ import BackgroundFX from './components/BackgroundFX'
 import Marquee from './components/Marquee'
 import Testimonials from './components/Testimonials'
 import Breather from './components/Breather'
+import TypeBreak from './components/TypeBreak'
 
 function Home() {
   return (
@@ -49,6 +50,7 @@ function Home() {
         <SkillRadar />
         <Education />
         <WorkExperience />
+        <TypeBreak />
         <BeyondDesign />
         <Contact />
       </div>

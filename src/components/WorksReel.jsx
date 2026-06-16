@@ -241,9 +241,9 @@ export default function WorksWheel() {
             fontFamily: "'Space Grotesk', sans-serif",
           }}>
             Every project is a chance to{' '}
-            <em style={{ fontStyle: 'italic', fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>solve</em>
+            <em style={{ fontStyle: 'italic', fontFamily: "'Bodoni Moda', Georgia, serif", fontWeight: 400 }}>solve</em>
             {', '}
-            <em style={{ fontStyle: 'italic', fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 400 }}>craft</em>
+            <em style={{ fontStyle: 'italic', fontFamily: "'Bodoni Moda', Georgia, serif", fontWeight: 400 }}>craft</em>
             {' '}and delight users.
           </h2>
         </div>
