@@ -22,6 +22,7 @@ import CursorGlow from './components/CursorGlow'
 import CustomCursor from './components/CustomCursor'
 import BackgroundFX from './components/BackgroundFX'
 import Marquee from './components/Marquee'
+import Testimonials from './components/Testimonials'
 
 function Home() {
   return (
@@ -36,6 +37,7 @@ function Home() {
         <WorksReel />
         <About />
         <FeaturedProjects />
+        <Testimonials />
         <Marquee />
         <DesignApproach />
         <MoreProjects />
