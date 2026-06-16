@@ -12,7 +12,7 @@ function calcH(index, total, minPct, maxPct) {
 
 export default function GradientBars({
   numBars = 13,
-  minPct = 3,
+  minPct = 22,
   maxPct = 92,
   duration = 8,
 }) {
