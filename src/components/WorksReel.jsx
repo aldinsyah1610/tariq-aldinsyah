@@ -106,7 +106,7 @@ export default function WorksWheel() {
     <section
       ref={outerRef}
       id="works"
-      style={{ height: '100vh', position: 'relative', backgroundColor: '#000', overflow: 'hidden' }}
+      style={{ height: '100vh', position: 'relative', backgroundColor: 'var(--bg)', overflow: 'hidden' }}
     >
       <div
         ref={stickyRef}
@@ -189,7 +189,7 @@ export default function WorksWheel() {
         {/* ── Radial vignette — keeps centre text readable ── */}
         <div style={{
           position: 'absolute', inset: 0, zIndex: 8, pointerEvents: 'none',
-          background: 'radial-gradient(ellipse 52% 52% at 50% 50%, rgba(0,0,0,0.75) 0%, transparent 100%)',
+          background: 'radial-gradient(ellipse 52% 52% at 50% 50%, rgba(8,12,2,0.82) 0%, transparent 100%)',
         }} />
 
         {/* ── Centre editorial text ── */}
