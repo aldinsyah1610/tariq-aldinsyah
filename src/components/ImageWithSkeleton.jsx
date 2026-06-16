@@ -13,7 +13,7 @@ export default function ImageWithSkeleton({ src, alt, imgClassName = '', style =
   return (
     <>
       {!loaded && (
-        <div className="skeleton-shimmer absolute inset-0" />
+        <div aria-hidden="true" className="skeleton-shimmer absolute inset-0" />
       )}
       <img
         src={resolvePublicSrc(src)}
