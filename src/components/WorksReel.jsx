@@ -146,13 +146,13 @@ export default function WorksWheel() {
                   position: 'absolute',
                   top: 0, left: 0,
                   transformStyle: 'preserve-3d',
-                  // No backfaceVisibility:hidden — back cards are visible (just smaller)
+                  willChange: 'transform',
                 }}
               >
                 {/* Counter-rotation: makes every card face the viewer */}
                 <div
                   ref={el => faceRefs.current[i] = el}
-                  style={{ transformStyle: 'preserve-3d' }}
+                  style={{ transformStyle: 'preserve-3d', willChange: 'transform' }}
                 >
                   {/* Centre card on its anchor point */}
                   <div style={{
@@ -180,14 +180,14 @@ export default function WorksWheel() {
                         transition: 'border-color 0.3s, box-shadow 0.3s',
                       }}
                       onMouseEnter={e => {
-                        const lt = document.documentElement.dataset.theme === 'light'
+                        const lt = theme === 'light'
                         e.currentTarget.style.borderColor = lt ? 'rgba(92,138,0,0.65)' : 'rgba(192,245,61,0.65)'
                         e.currentTarget.style.boxShadow  = lt
                           ? '0 16px 56px rgba(0,0,0,0.18), 0 0 0 1px rgba(92,138,0,0.3)'
                           : '0 16px 56px rgba(0,0,0,0.9), 0 0 0 1px rgba(192,245,61,0.3)'
                       }}
                       onMouseLeave={e => {
-                        const lt = document.documentElement.dataset.theme === 'light'
+                        const lt = theme === 'light'
                         e.currentTarget.style.borderColor = lt ? 'rgba(30,26,9,0.12)' : 'rgba(255,255,255,0.13)'
                         e.currentTarget.style.boxShadow  = '0 12px 48px rgba(0,0,0,0.85)'
                       }}

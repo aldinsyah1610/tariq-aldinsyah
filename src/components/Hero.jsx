@@ -120,6 +120,12 @@ export default function Hero() {
             <p className="text-white/30 uppercase text-xs tracking-widest mb-1">Year</p>
             <p className="text-white/70 font-medium text-xs sm:text-sm">2026</p>
           </div>
+          <div className="col-span-2 sm:col-span-3">
+            <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full"
+              style={{ background: 'rgba(192,245,61,0.07)', color: 'var(--lime-text)', border: '1px solid rgba(192,245,61,0.18)' }}>
+              ✦ 1st Place · Kisel Innovation Award 2024
+            </span>
+          </div>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12" style={{ alignItems: 'start' }}>

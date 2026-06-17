@@ -16,6 +16,7 @@ const featured = [
     label: 'Modular Digital Ecosystem',
     name: 'rakit ecosystem',
     accent: '#C0F53D',
+    award: '1st Place · Kisel Innovation Award 2024',
     desc: 'A modular digital development system to accelerate the creation of scalable products — e-commerce, cooperative systems, and POS platforms — through reusable and integrated modules.',
     tags: ['Product & UX Strategy', 'Ecosystem Planning', 'UI/UX Design', 'Design System Thinking'],
     metrics: [{ val: '40%', label: 'Dev Efficiency Improved' }, { val: '3×', label: 'Faster Multi-Product Dev' }],
@@ -199,8 +200,14 @@ function ProjectCard({ project: p }) {
 
           {/* Left */}
           <div className="space-y-5">
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2">
               <span className="label-tag" style={{ fontSize: '0.55rem' }}>{p.label}</span>
+              {p.award && (
+                <span className="inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-full"
+                  style={{ background: 'rgba(192,245,61,0.1)', color: 'var(--lime-text)', border: '1px solid rgba(192,245,61,0.25)' }}>
+                  ✦ {p.award}
+                </span>
+              )}
             </div>
 
             <h3 className="font-sans font-bold text-lime leading-tight capitalize"

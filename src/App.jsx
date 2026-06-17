@@ -38,18 +38,18 @@ function Home() {
         <Navbar />
         <Hero />
         <WorksReel />
-        <About />
-        <ProcessBreakdown />
         <FeaturedProjects />
         <Testimonials />
         <Breather />
+        <About />
+        <ProcessBreakdown />
         <Marquee />
         <DesignApproach />
         <MoreProjects />
         <SkillRadar />
         <Education />
         <WorkExperience />
-<BeyondDesign />
+        <BeyondDesign />
         <Contact />
       </div>
     </div>
